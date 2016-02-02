@@ -3,33 +3,23 @@ using MediatR;
 
 namespace SampleLibrary.Command
 {
-    public class Thing
+    public class ThingCommand
     {
         public class Create : IAsyncRequest<Unit>
         {
             public string Id { get; set; }
             public string Name { get; set; }
-        }
+            public string AddressLine { get; set; }
+            public string AddressZip { get; set; }
 
-        public class CreateValidator : AbstractValidator<Create>
-        {
-            public CreateValidator()
+            public class Validator : AbstractValidator<Create>
             {
-                RuleFor(_ => _.Id).NotEmpty();
-                RuleFor(_ => _.Name).NotEmpty();
-            }
-        }
-
-        public class Update : IAsyncRequest<Unit>
-        {
-            public string Name { get; set; }
-        }
-
-        public class UpdateValidator : AbstractValidator<Update>
-        {
-            public UpdateValidator()
-            {
-                RuleFor(_ => _.Name).NotEmpty();
+                public Validator()
+                {
+                    RuleFor(_ => _.Name).NotEmpty();
+                    RuleFor(_ => _.AddressLine).NotEmpty();
+                    RuleFor(_ => _.AddressZip).NotEmpty();
+                }
             }
         }
     }

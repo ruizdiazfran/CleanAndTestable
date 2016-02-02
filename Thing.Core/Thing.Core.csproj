@@ -79,14 +79,16 @@
     <Compile Include="Infrastructure\DefaultSecurityPoint.cs" />
     <Compile Include="Infrastructure\Mapper\AutoMapperBootstrapper.cs" />
     <Compile Include="Infrastructure\Mapper\ThingProfile.cs" />
-    <Compile Include="Pipeline\ValidatorHandlerPipelineAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\ThingQueriesHandlers.cs" />
     <Compile Include="Query\ThingQueries.cs" />
     <Compile Include="ViewModel\ThingAllViewModel.cs" />
-    <Compile Include="ViewModel\ThingViewModel.cs" />
+    <Compile Include="ViewModel\ThingInputModel.cs" />
+    <Compile Include="ViewModel\ThingDetailViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Pipeline\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

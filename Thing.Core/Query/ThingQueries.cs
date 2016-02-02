@@ -3,7 +3,7 @@ using SampleLibrary.ViewModel;
 
 namespace SampleLibrary.Query
 {
-    public class Query
+    public class ThingQuery
     {
         public class GetAll : IAsyncRequest<ThingAllViewModel>
         {

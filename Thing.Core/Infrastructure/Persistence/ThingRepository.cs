@@ -33,7 +33,7 @@ namespace SampleLibrary.Infrastructure.Persistence
             return await _dataSet.SingleAsync(_ => _.Id == id).ConfigureAwait(false);
         }
 
-        public void Save(Thing entity)
+        public void Add(Thing entity)
         {
             _dataSet.Add(entity);
         }

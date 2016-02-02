@@ -7,7 +7,6 @@ using MediatR;
 using SampleLibrary.Contracts;
 using SampleLibrary.Infrastructure;
 using SampleLibrary.Infrastructure.Persistence;
-using SampleLibrary.Pipeline;
 using SampleLibrary.Query;
 
 namespace Thing.Api
@@ -28,14 +27,14 @@ namespace Thing.Api
                 .As<IUnitOfWork>()
                 .InstancePerLifetimeScope();
 
-            builder.Register(_ => _.Resolve<IUnitOfWork>().GetThingRepository() )
-                   .InstancePerLifetimeScope();
+            builder.Register(_ => _.Resolve<IUnitOfWork>().GetThingRepository())
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<ThingDbContext>().AsSelf();
 
             //  MediatoR
             builder.RegisterAssemblyTypes(typeof (IMediator).Assembly).AsImplementedInterfaces();
-            builder.RegisterAssemblyTypes(typeof (Query).Assembly).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof (ThingQuery).Assembly).AsImplementedInterfaces();
             builder.Register<SingleInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();
@@ -46,9 +45,6 @@ namespace Thing.Api
                 var c = ctx.Resolve<IComponentContext>();
                 return t => (IEnumerable<object>) c.Resolve(typeof (IEnumerable<>).MakeGenericType(t));
             });
-
-            builder.RegisterHandlers(typeof (Query).Assembly, typeof (IAsyncRequestHandler<,>),
-                typeof (ValidatorHandlerPipelineAsync<,>));
 
             var container = builder.Build();
 

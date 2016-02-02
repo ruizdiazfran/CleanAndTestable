@@ -12,6 +12,6 @@ namespace SampleLibrary.Contracts
 
         Task<IEnumerable<Thing>> GetAllAsync();
 
-        void Save(Thing entity);
+        void Add(Thing entity);
     }
 }

@@ -1,20 +1,28 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
+using SampleLibrary.Contracts;
+using SampleLibrary.Domain;
 
 namespace SampleLibrary.Command
 {
-    public class ThingCommandHandlers : IAsyncRequestHandler<Thing.Create, Unit>,
-        IAsyncRequestHandler<Thing.Update, Unit>
+    public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>
     {
-        Task<Unit> IAsyncRequestHandler<Thing.Create, Unit>.Handle(Thing.Create message)
+        private readonly IThingRepository _thingRepository;
+
+        public ThingCommandHandlers(IThingRepository thingRepository)
         {
-            throw new NotImplementedException();
+            _thingRepository = thingRepository;
         }
 
-        Task<Unit> IAsyncRequestHandler<Thing.Update, Unit>.Handle(Thing.Update message)
+        Task<Unit> IAsyncRequestHandler<ThingCommand.Create, Unit>.Handle(ThingCommand.Create message)
         {
-            throw new NotImplementedException();
+#pragma warning disable 618
+            var entity = new Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);
+#pragma warning restore 618
+
+            _thingRepository.Add(entity);
+
+            return Task.FromResult(Unit.Value);
         }
     }
 }

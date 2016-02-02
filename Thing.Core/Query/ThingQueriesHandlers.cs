@@ -7,9 +7,9 @@ using SampleLibrary.ViewModel;
 
 namespace SampleLibrary.Query
 {
-    public class ThingQueriesHandlers : IAsyncRequestHandler<Query.GetAll, ThingAllViewModel>,
-        IAsyncRequestHandler<Query.GetByName, ThingDetailViewModel>,
-        IAsyncRequestHandler<Query.GetById, ThingDetailViewModel>
+    public class ThingQueriesHandlers : IAsyncRequestHandler<ThingQuery.GetAll, ThingAllViewModel>,
+        IAsyncRequestHandler<ThingQuery.GetByName, ThingDetailViewModel>,
+        IAsyncRequestHandler<ThingQuery.GetById, ThingDetailViewModel>
     {
         private readonly IThingRepository _thingRepository;
 
@@ -18,7 +18,8 @@ namespace SampleLibrary.Query
             _thingRepository = thingRepository;
         }
 
-        async Task<ThingAllViewModel> IAsyncRequestHandler<Query.GetAll, ThingAllViewModel>.Handle(Query.GetAll message)
+        async Task<ThingAllViewModel> IAsyncRequestHandler<ThingQuery.GetAll, ThingAllViewModel>.Handle(
+            ThingQuery.GetAll message)
         {
             var entities = await _thingRepository.GetAllAsync();
 #pragma warning disable 618
@@ -26,8 +27,8 @@ namespace SampleLibrary.Query
 #pragma warning restore 618
         }
 
-        async Task<ThingDetailViewModel> IAsyncRequestHandler<Query.GetById, ThingDetailViewModel>.Handle(
-            Query.GetById message)
+        async Task<ThingDetailViewModel> IAsyncRequestHandler<ThingQuery.GetById, ThingDetailViewModel>.Handle(
+            ThingQuery.GetById message)
         {
             var entity = await _thingRepository.GetByIdAsync(message.Id);
 #pragma warning disable 618
@@ -35,8 +36,8 @@ namespace SampleLibrary.Query
 #pragma warning restore 618
         }
 
-        async Task<ThingDetailViewModel> IAsyncRequestHandler<Query.GetByName, ThingDetailViewModel>.Handle(
-            Query.GetByName message)
+        async Task<ThingDetailViewModel> IAsyncRequestHandler<ThingQuery.GetByName, ThingDetailViewModel>.Handle(
+            ThingQuery.GetByName message)
         {
             var entity = await _thingRepository.FindByNameAsync(message.Name);
 #pragma warning disable 618

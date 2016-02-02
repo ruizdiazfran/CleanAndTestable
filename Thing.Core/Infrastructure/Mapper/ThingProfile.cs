@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SampleLibrary.Command;
+using SampleLibrary.Domain;
 using SampleLibrary.ViewModel;
 
 namespace SampleLibrary.Infrastructure.Mapper
@@ -8,10 +8,11 @@ namespace SampleLibrary.Infrastructure.Mapper
     {
         protected override void Configure()
         {
-            CreateMap<Thing.Create, Domain.Thing>();
-            CreateMap<Thing.Update, Domain.Thing>();
-            CreateMap<ThingDetailViewModel, Domain.Thing>();
-            CreateMap<Domain.Thing, ThingDetailViewModel>();
+            // ViewModel
+            CreateMap<ThingDetailViewModel, Thing>();
+            CreateMap<Thing, ThingDetailViewModel>()
+                .ForMember(x => x.AddressLine, x => x.MapFrom(_ => _.Address.Line))
+                .ForMember(x => x.AddressZip, x => x.MapFrom(_ => _.Address.Zip));
         }
     }
 }

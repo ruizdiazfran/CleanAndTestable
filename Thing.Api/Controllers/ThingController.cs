@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
+using SampleLibrary.Command;
 using SampleLibrary.Query;
 
 namespace Thing.Api.Controllers
@@ -18,17 +19,25 @@ namespace Thing.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            var result = await _mediator.SendAsync(new Query.GetAll());
+            var result = await _mediator.SendAsync(new ThingQuery.GetAll());
 
             return Ok(result);
         }
 
         [Route("{id}")]
-        public async Task<IHttpActionResult> Get(string id)
+        public async Task<IHttpActionResult> Get([FromUri] ThingQuery.GetById input)
         {
-            var result = await _mediator.SendAsync(new Query.GetById {Id = id});
+            var result = await _mediator.SendAsync(input);
 
             return Ok(result);
+        }
+
+        [Route("")]
+        public async Task<IHttpActionResult> Post([FromBody] ThingCommand.Create input)
+        {
+            await _mediator.SendAsync(input);
+
+            return Ok();
         }
     }
 }

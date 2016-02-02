@@ -12,7 +12,7 @@ namespace Thing.Api
     {
         public void Configuration(IAppBuilder app)
         {
-            //Initer.Initialize();
+            Initer.Initialize();
 
             var configuration = new HttpConfiguration();
 
