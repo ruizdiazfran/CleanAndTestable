@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using SampleLibrary.Contracts;
 using SampleLibrary.Domain;
@@ -13,6 +14,8 @@ namespace SampleLibrary.Infrastructure.Persistence
 
         public ThingRepository(ThingDbContext dbContext)
         {
+            Debug.WriteLine($"Create {nameof(ThingRepository)}");
+
             if (dbContext == null) throw new ArgumentNullException(nameof(dbContext));
 
             _dataSet = dbContext.Things;

@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using SampleLibrary.Contracts;
 
@@ -13,6 +14,7 @@ namespace SampleLibrary.Infrastructure.Persistence
 
         public UnitOfWork(ThingDbContext dbContext)
         {
+            Debug.WriteLine($"Create {nameof(UnitOfWork)}");
             _dbContext = dbContext;
             _dbTransaction = _dbContext.Database.BeginTransaction(IsolationLevel.ReadCommitted);
         }
@@ -22,7 +24,7 @@ namespace SampleLibrary.Infrastructure.Persistence
             return new ThingRepository(_dbContext);
         }
 
-        public async Task CommitAsync(Exception exception)
+        public async Task CommitAsync(Exception exception = null)
         {
             try
             {
@@ -45,11 +47,6 @@ namespace SampleLibrary.Infrastructure.Persistence
 
                 throw;
             }
-        }
-
-        public void Dispose()
-        {
-            _dbContext?.Dispose();
-        }
+        }        
     }
 }

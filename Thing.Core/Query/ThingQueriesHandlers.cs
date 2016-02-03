@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -18,7 +19,7 @@ namespace SampleLibrary.Query
             _thingRepository = thingRepository;
         }
 
-        async Task<ThingAllViewModel> IAsyncRequestHandler<ThingQuery.GetAll, ThingAllViewModel>.Handle(
+        public async Task<ThingAllViewModel> Handle(
             ThingQuery.GetAll message)
         {
             var entities = await _thingRepository.GetAllAsync();
@@ -27,7 +28,7 @@ namespace SampleLibrary.Query
 #pragma warning restore 618
         }
 
-        async Task<ThingDetailViewModel> IAsyncRequestHandler<ThingQuery.GetById, ThingDetailViewModel>.Handle(
+        public async Task<ThingDetailViewModel> Handle(
             ThingQuery.GetById message)
         {
             var entity = await _thingRepository.GetByIdAsync(message.Id);
@@ -36,7 +37,7 @@ namespace SampleLibrary.Query
 #pragma warning restore 618
         }
 
-        async Task<ThingDetailViewModel> IAsyncRequestHandler<ThingQuery.GetByName, ThingDetailViewModel>.Handle(
+        public async Task<ThingDetailViewModel> Handle(
             ThingQuery.GetByName message)
         {
             var entity = await _thingRepository.FindByNameAsync(message.Name);

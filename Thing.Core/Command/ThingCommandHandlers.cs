@@ -14,7 +14,7 @@ namespace SampleLibrary.Command
             _thingRepository = thingRepository;
         }
 
-        Task<Unit> IAsyncRequestHandler<ThingCommand.Create, Unit>.Handle(ThingCommand.Create message)
+        public Task<Unit> Handle(ThingCommand.Create message)
         {
 #pragma warning disable 618
             var entity = new Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);

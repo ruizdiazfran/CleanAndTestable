@@ -22,6 +22,7 @@ namespace Thing.Api
 
             app.UseAutofacMiddleware(container);
             app.UseAutofacWebApi(configuration);
+            
             app.UseWebApi(configuration);
         }
     }

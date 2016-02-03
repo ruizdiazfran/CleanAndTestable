@@ -23,8 +23,7 @@ namespace Thing.Api
             builder.Register<ISecurityPoint>(_ => new DefaultSecurityPoint()).SingleInstance();
 
             //  UnitOfWork
-            builder.RegisterType<UnitOfWork>()
-                .As<IUnitOfWork>()
+            builder.Register(_ => new UnitOfWork(_.Resolve<ThingDbContext>()))
                 .InstancePerLifetimeScope();
 
             builder.Register(_ => _.Resolve<IUnitOfWork>().GetThingRepository())
@@ -40,6 +39,7 @@ namespace Thing.Api
                 var c = ctx.Resolve<IComponentContext>();
                 return t => c.Resolve(t);
             });
+
             builder.Register<MultiInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();

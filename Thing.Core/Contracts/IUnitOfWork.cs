@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace SampleLibrary.Contracts
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IThingRepository GetThingRepository();
 
-        Task CommitAsync(Exception exception);
+        Task CommitAsync(Exception exception = null);
     }
 }
