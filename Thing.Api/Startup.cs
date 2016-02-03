@@ -1,8 +1,11 @@
 ﻿using System.Web.Http;
+using Autofac.Integration.WebApi;
 using Microsoft.Owin;
+using Newtonsoft.Json.Serialization;
 using Owin;
 using SampleLibrary.Infrastructure;
 using Thing.Api;
+using Thing.Api.Infrastructure;
 
 [assembly: OwinStartup(typeof (Startup))]
 
@@ -14,15 +17,16 @@ namespace Thing.Api
         {
             Initer.Initialize();
 
-            var configuration = new HttpConfiguration();
+            GlobalConfiguration.Configure(WebApiRegister.Register);
 
-            configuration.MapHttpAttributeRoutes();
+            var container = CompositionRoot.Create();
 
-            var container = new CompositionRoot().Create(configuration);
+            var configuration = GlobalConfiguration.Configuration;
 
-            app.UseAutofacMiddleware(container);
+            configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
             app.UseAutofacWebApi(configuration);
-            
+
             app.UseWebApi(configuration);
         }
     }

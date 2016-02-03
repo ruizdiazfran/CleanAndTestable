@@ -148,11 +148,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacBuilderExtensions.cs" />
     <Compile Include="Controllers\ThingController.cs" />
+    <Compile Include="Infrastructure\CompositionRoot.cs" />
+    <Compile Include="Infrastructure\FluentValidationActionFilter.cs" />
+    <Compile Include="Infrastructure\UnitOfWorkActionFilter.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\WebApiRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Thing.Core\Thing.Core.csproj">

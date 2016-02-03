@@ -68,10 +68,12 @@
     <Compile Include="Contracts\ISecurityPoint.cs" />
     <Compile Include="Contracts\IUnitOfWork.cs" />
     <Compile Include="Contracts\IThingRepository.cs" />
+    <Compile Include="Contracts\IValidable.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\IValueObject.cs" />
     <Compile Include="Domain\IAggregateRoot.cs" />
     <Compile Include="Domain\Thing.cs" />
+    <Compile Include="Infrastructure\Pipeline\AsyncValidationRequestHandler.cs" />
     <Compile Include="Infrastructure\Initer.cs" />
     <Compile Include="Infrastructure\Persistence\ThingDbContext.cs" />
     <Compile Include="Infrastructure\Persistence\ThingRepository.cs" />
@@ -86,9 +88,7 @@
     <Compile Include="ViewModel\ThingInputModel.cs" />
     <Compile Include="ViewModel\ThingDetailViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pipeline\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

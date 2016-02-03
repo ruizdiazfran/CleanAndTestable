@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
+using SampleLibrary.Contracts;
 
 namespace SampleLibrary.Command
 {
     public class ThingCommand
     {
-        public class Create : IAsyncRequest<Unit>
+        public class Create : IAsyncRequest<Unit>, IValidable
         {
             public string Id { get; set; }
             public string Name { get; set; }

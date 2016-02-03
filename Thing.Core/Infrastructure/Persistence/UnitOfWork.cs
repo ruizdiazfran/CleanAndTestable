@@ -10,18 +10,23 @@ namespace SampleLibrary.Infrastructure.Persistence
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ThingDbContext _dbContext;
-        private readonly DbContextTransaction _dbTransaction;
+        private DbContextTransaction _dbTransaction;
 
         public UnitOfWork(ThingDbContext dbContext)
         {
             Debug.WriteLine($"Create {nameof(UnitOfWork)}");
             _dbContext = dbContext;
-            _dbTransaction = _dbContext.Database.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         public IThingRepository GetThingRepository()
         {
             return new ThingRepository(_dbContext);
+        }
+
+        public Task StartAsync()
+        {
+            _dbTransaction = _dbContext.Database.BeginTransaction(IsolationLevel.ReadCommitted);
+            return Task.CompletedTask;
         }
 
         public async Task CommitAsync(Exception exception = null)
