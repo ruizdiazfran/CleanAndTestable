@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SampleLibrary.ViewModel
+namespace Thing.Core.ViewModel
 {
     public class ThingAllViewModel : List<ThingDetailViewModel>
     {

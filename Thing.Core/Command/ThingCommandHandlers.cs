@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
-using SampleLibrary.Contracts;
-using SampleLibrary.Domain;
+using Thing.Core.Contracts;
 
-namespace SampleLibrary.Command
+namespace Thing.Core.Command
 {
     public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>
     {
@@ -17,7 +16,7 @@ namespace SampleLibrary.Command
         public Task<Unit> Handle(ThingCommand.Create message)
         {
 #pragma warning disable 618
-            var entity = new Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);
+            var entity = new Domain.Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);
 #pragma warning restore 618
 
             _thingRepository.Add(entity);

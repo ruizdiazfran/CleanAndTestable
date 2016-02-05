@@ -7,8 +7,8 @@
     <ProjectGuid>{87F9879C-3804-4B93-89E4-667ECF627401}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleLibrary</RootNamespace>
-    <AssemblyName>SampleLibrary</AssemblyName>
+    <RootNamespace>Thing.Core</RootNamespace>
+    <AssemblyName>Thing.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

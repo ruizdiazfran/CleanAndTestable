@@ -1,11 +1,10 @@
 ﻿using System.Web.Http;
 using Autofac.Integration.WebApi;
 using Microsoft.Owin;
-using Newtonsoft.Json.Serialization;
 using Owin;
-using SampleLibrary.Infrastructure;
 using Thing.Api;
 using Thing.Api.Infrastructure;
+using Thing.Core.Infrastructure;
 
 [assembly: OwinStartup(typeof (Startup))]
 
@@ -19,7 +18,7 @@ namespace Thing.Api
 
             GlobalConfiguration.Configure(WebApiRegister.Register);
 
-            var container = CompositionRoot.Create();
+            var container = CompositionRoot.Container;
 
             var configuration = GlobalConfiguration.Configuration;
 

@@ -1,9 +1,7 @@
-﻿using SampleLibrary.Domain;
-
-namespace SampleLibrary.Contracts
+﻿namespace Thing.Core.Contracts
 {
     public interface ISecurityPoint
     {
-        bool CanDoWork(Thing thing);
+        bool CanDoWork(Domain.Thing thing);
     }
 }

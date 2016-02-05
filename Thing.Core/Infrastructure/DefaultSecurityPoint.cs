@@ -1,12 +1,11 @@
 ﻿using System;
-using SampleLibrary.Contracts;
-using SampleLibrary.Domain;
+using Thing.Core.Contracts;
 
-namespace SampleLibrary.Infrastructure
+namespace Thing.Core.Infrastructure
 {
     public class DefaultSecurityPoint : ISecurityPoint
     {
-        public bool CanDoWork(Thing thing)
+        public bool CanDoWork(Domain.Thing thing)
         {
             if (thing == null) throw new ArgumentNullException(nameof(thing));
 

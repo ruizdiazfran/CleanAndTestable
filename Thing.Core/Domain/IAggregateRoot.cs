@@ -1,4 +1,4 @@
-﻿namespace SampleLibrary.Domain
+﻿namespace Thing.Core.Domain
 {
     public interface IAggregateRoot
     {

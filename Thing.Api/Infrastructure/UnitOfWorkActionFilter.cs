@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using SampleLibrary.Contracts;
-using SampleLibrary.Infrastructure;
+using Thing.Core.Contracts;
+using Thing.Core.Infrastructure;
 
 namespace Thing.Api.Infrastructure
 {
@@ -17,7 +17,8 @@ namespace Thing.Api.Infrastructure
             await GetUnitOfWork(actionExecutedContext.Request).CommitAsync(actionExecutedContext.Exception);
         }
 
-        public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        public override async Task OnActionExecutingAsync(HttpActionContext actionContext,
+            CancellationToken cancellationToken)
         {
             if (!await Initer.HasCompleted())
             {

@@ -1,24 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Http;
 using Autofac;
 using Autofac.Core;
 using Autofac.Features.Variance;
 using Autofac.Integration.WebApi;
 using FluentValidation;
 using MediatR;
-using SampleLibrary.Command;
-using SampleLibrary.Contracts;
-using SampleLibrary.Infrastructure;
-using SampleLibrary.Infrastructure.Persistence;
-using SampleLibrary.Infrastructure.Pipeline;
+using Thing.Core.Command;
+using Thing.Core.Contracts;
+using Thing.Core.Infrastructure;
+using Thing.Core.Infrastructure.Persistence;
+using Thing.Core.Infrastructure.Pipeline;
 
 namespace Thing.Api.Infrastructure
 {
     public class CompositionRoot
     {
-        public static IContainer Create()
+        public static Action<IContainer> Override = c => { };
+        private static readonly Lazy<IContainer> Bootstrapper = new Lazy<IContainer>(Initialize, true);
+
+        public static IContainer Container => Bootstrapper.Value;
+
+        private static IContainer Initialize()
         {
             var builder = new ContainerBuilder();
 
@@ -61,13 +66,16 @@ namespace Thing.Api.Infrastructure
             builder.RegisterGenericDecorator(typeof (AsyncValidationRequestHandler<,>), typeof (IAsyncRequestHandler<,>),
                 "async-handlers"); // The outermost decorator should not have a toKey
 
-            return builder.Build();
+            var container = builder.Build();
+            Override(container);
+            return container;
         }
 
         private static void RegisterValidators(ContainerBuilder builder)
         {
             AssemblyScanner.FindValidatorsInAssembly(typeof (ThingCommand).Assembly)
-                .ForEach(result =>
+                .ForEach(
+                    result =>
                     {
                         builder.RegisterType(result.ValidatorType).As(result.InterfaceType).InstancePerLifetimeScope();
                     });

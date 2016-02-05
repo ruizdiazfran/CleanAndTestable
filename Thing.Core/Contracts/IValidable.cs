@@ -1,4 +1,4 @@
-﻿namespace SampleLibrary.Contracts
+﻿namespace Thing.Core.Contracts
 {
     public interface IValidable
     {

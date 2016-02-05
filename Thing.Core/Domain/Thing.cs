@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleLibrary.Domain
+namespace Thing.Core.Domain
 {
     [Table("ThingCommand")]
     public class Thing : IAggregateRoot

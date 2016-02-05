@@ -12,7 +12,8 @@ namespace Thing.Api.Infrastructure
             configuration.Filters.Add(new FluentValidationActionFilter());
             configuration.Filters.Add(new UnitOfWorkActionFilter());
 
-            configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
             configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
         }
     }

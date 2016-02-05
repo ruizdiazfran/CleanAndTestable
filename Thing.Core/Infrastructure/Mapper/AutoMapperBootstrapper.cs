@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 
-namespace SampleLibrary.Infrastructure.Mapper
+namespace Thing.Core.Infrastructure.Mapper
 {
     public class AutoMapperBootstrapper
     {

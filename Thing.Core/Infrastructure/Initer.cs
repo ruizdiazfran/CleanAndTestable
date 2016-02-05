@@ -1,11 +1,10 @@
 ﻿using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
-using SampleLibrary.Domain;
-using SampleLibrary.Infrastructure.Mapper;
-using SampleLibrary.Infrastructure.Persistence;
+using Thing.Core.Infrastructure.Mapper;
+using Thing.Core.Infrastructure.Persistence;
 
-namespace SampleLibrary.Infrastructure
+namespace Thing.Core.Infrastructure
 {
     public class Initer
     {
@@ -60,9 +59,9 @@ namespace SampleLibrary.Infrastructure
 
                 using (var db = new ThingDbContext())
                 {
-                    db.Things.Add(new Thing("my-first", "one").SetAddress("Via Morimondo", "20100"));
-                    db.Things.Add(new Thing("my-second", "two").SetAddress("Via Barona", "20100"));
-                    db.Things.Add(new Thing("my-thirdy", "three").SetAddress("Via Watts", "20100"));
+                    db.Things.Add(new Domain.Thing("my-first", "one").SetAddress("Via Morimondo", "20100"));
+                    db.Things.Add(new Domain.Thing("my-second", "two").SetAddress("Via Barona", "20100"));
+                    db.Things.Add(new Domain.Thing("my-thirdy", "three").SetAddress("Via Watts", "20100"));
 
                     await db.SaveChangesAsync();
                 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SampleLibrary.Contracts
+namespace Thing.Core.Contracts
 {
     public interface IUnitOfWork
     {

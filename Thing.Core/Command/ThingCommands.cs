@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using SampleLibrary.Contracts;
+using Thing.Core.Contracts;
 
-namespace SampleLibrary.Command
+namespace Thing.Core.Command
 {
     public class ThingCommand
     {

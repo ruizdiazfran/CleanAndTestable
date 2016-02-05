@@ -1,4 +1,4 @@
-﻿namespace SampleLibrary.ViewModel
+﻿namespace Thing.Core.ViewModel
 {
     public class ThingInputModel
     {

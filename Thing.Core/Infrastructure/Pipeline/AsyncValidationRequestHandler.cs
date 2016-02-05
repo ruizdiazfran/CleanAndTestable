@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using SampleLibrary.Contracts;
+using Thing.Core.Contracts;
 
-namespace SampleLibrary.Infrastructure.Pipeline
+namespace Thing.Core.Infrastructure.Pipeline
 {
     public class AsyncValidationRequestHandler<TRequest, TResponse> : IAsyncRequestHandler<TRequest, TResponse>
         where TRequest : IAsyncRequest<TResponse>

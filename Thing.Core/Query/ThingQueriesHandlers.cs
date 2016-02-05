@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using SampleLibrary.Contracts;
-using SampleLibrary.ViewModel;
+using Thing.Core.Contracts;
+using Thing.Core.ViewModel;
 
-namespace SampleLibrary.Query
+namespace Thing.Core.Query
 {
     public class ThingQueriesHandlers : IAsyncRequestHandler<ThingQuery.GetAll, ThingAllViewModel>,
         IAsyncRequestHandler<ThingQuery.GetByName, ThingDetailViewModel>,

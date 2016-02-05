@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleLibrary.Domain
+namespace Thing.Core.Domain
 {
     [ComplexType]
     public class Address : IValueObject

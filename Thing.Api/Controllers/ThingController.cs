@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
-using SampleLibrary.Command;
-using SampleLibrary.Query;
+using Thing.Core.Command;
+using Thing.Core.Query;
 
 namespace Thing.Api.Controllers
 {

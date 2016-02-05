@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SampleLibrary.Domain;
 
-namespace SampleLibrary.Contracts
+namespace Thing.Core.Contracts
 {
     public interface IThingRepository
     {
-        Task<Thing> GetByIdAsync(string id);
+        Task<Domain.Thing> GetByIdAsync(string id);
 
-        Task<Thing> FindByNameAsync(string name);
+        Task<Domain.Thing> FindByNameAsync(string name);
 
-        Task<IEnumerable<Thing>> GetAllAsync();
+        Task<IEnumerable<Domain.Thing>> GetAllAsync();
 
-        void Add(Thing entity);
+        void Add(Domain.Thing entity);
     }
 }

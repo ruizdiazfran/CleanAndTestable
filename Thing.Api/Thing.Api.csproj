@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ThingController.cs" />
+    <Compile Include="Infrastructure\ApiResourceValidationErrorWrapper.cs" />
     <Compile Include="Infrastructure\CompositionRoot.cs" />
     <Compile Include="Infrastructure\FluentValidationActionFilter.cs" />
     <Compile Include="Infrastructure\UnitOfWorkActionFilter.cs" />

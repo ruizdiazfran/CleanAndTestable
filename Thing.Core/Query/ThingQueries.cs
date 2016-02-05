@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using SampleLibrary.ViewModel;
+using Thing.Core.ViewModel;
 
-namespace SampleLibrary.Query
+namespace Thing.Core.Query
 {
     public class ThingQuery
     {

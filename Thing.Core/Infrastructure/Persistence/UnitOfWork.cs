@@ -3,9 +3,9 @@ using System.Data;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SampleLibrary.Contracts;
+using Thing.Core.Contracts;
 
-namespace SampleLibrary.Infrastructure.Persistence
+namespace Thing.Core.Infrastructure.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -52,6 +52,14 @@ namespace SampleLibrary.Infrastructure.Persistence
 
                 throw;
             }
-        }        
+            finally
+            {
+                if (_dbTransaction != null)
+                {
+                    _dbTransaction.Dispose();
+                    _dbTransaction = null;
+                }
+            }
+        }
     }
 }
