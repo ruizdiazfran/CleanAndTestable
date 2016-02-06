@@ -44,7 +44,6 @@ namespace Thing.Core.Infrastructure
                 {
                     AutoMapperBootstrapper.Initialize();
                     await InitializeDbAsync();
-                    await Task.Delay(500);
                     return true;
                 }
                 catch

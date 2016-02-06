@@ -41,7 +41,7 @@ namespace Thing.Tests.Integration.Utils
             }
 
             string connectionString =
-                $@"Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\Db-{dbName}.mdf;Integrated Security=True;MultipleActiveResultSets=True";
+                $@"Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Db-{dbName}.mdf;Integrated Security=True;MultipleActiveResultSets=True";
             Instance.Value = DbContextFactory(connectionString);
             GetDbContext().Database.CreateIfNotExists();
         }
