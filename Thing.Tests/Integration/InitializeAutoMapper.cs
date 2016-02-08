@@ -10,7 +10,6 @@ namespace Thing.Tests.Integration
         public void Execute(Class context, Action next)
         {
             Debug.WriteLine("Start " + nameof(InitializeAutoMapper));
-
             AutoMapperBootstrapper.Initialize();
 
             next();

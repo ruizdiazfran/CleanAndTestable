@@ -5,7 +5,7 @@ using Thing.Core.Contracts;
 namespace Thing.Core.Command
 {
     public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>,
-         IAsyncRequestHandler<ThingCommand.Delete, Unit>
+        IAsyncRequestHandler<ThingCommand.Delete, Unit>
     {
         private readonly IThingRepository _thingRepository;
 

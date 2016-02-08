@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Thing.Core.Contracts;
 
@@ -10,8 +9,8 @@ namespace Thing.Core.Infrastructure.Persistence
 {
     public class ThingRepository : IThingRepository
     {
-        private readonly ThingDbContext _dbContext;
         private readonly DbSet<Domain.Thing> _dataSet;
+        private readonly ThingDbContext _dbContext;
 
         public ThingRepository(ThingDbContext dbContext)
         {

@@ -20,13 +20,13 @@ namespace Thing.Core.Infrastructure.Persistence
             Configure();
         }
 
+        public DbSet<Domain.Thing> Things { get; set; }
+
         private void Configure()
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
         }
-
-        public DbSet<Domain.Thing> Things { get; set; }
 
         protected override void Dispose(bool disposing)
         {

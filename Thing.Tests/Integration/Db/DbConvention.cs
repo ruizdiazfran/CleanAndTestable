@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using Autofac;
 using Fixie;
 using Thing.Api.Infrastructure;
@@ -28,9 +27,6 @@ namespace Thing.Tests.Integration.Db
                 .Wrap<InitializeContainer>()
                 .Wrap<InitializeAutoMapper>()
                 .UsingFactory(ContainerLocal.Resolve);
-
-            CaseExecution
-                .Wrap<RespawnDbData>();
         }
 
         private static ThingDbContext CreateDbContext(string connectionString)
@@ -46,7 +42,8 @@ namespace Thing.Tests.Integration.Db
             var cb = new ContainerBuilder();
             cb.RegisterAssemblyTypes(typeof (DbConvention).Assembly)
                 .Where(_ => _.Name.EndsWith("Tests"));
-            cb.Register(_ => DbLocal.GetTypedDbContext<ThingDbContext>()).AsSelf();
+            cb.Register(_ => DbLocal.GetTypedDbContext<ThingDbContext>())
+                .AsSelf();
             cb.Update(container);
         }
     }

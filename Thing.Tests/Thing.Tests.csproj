@@ -84,7 +84,6 @@
     <Compile Include="Integration\InitializeAutoMapper.cs" />
     <Compile Include="Integration\InitializeContainer.cs" />
     <Compile Include="Integration\InitializeDatabase.cs" />
-    <Compile Include="Integration\RespawnDbData.cs" />
     <Compile Include="Integration\Db\DbConvention.cs" />
     <Compile Include="Integration\Utils\ContainerLocal.cs" />
     <Compile Include="Integration\Utils\DbLocal.cs" />
