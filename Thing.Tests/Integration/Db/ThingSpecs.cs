@@ -8,11 +8,11 @@ using Thing.Core.Query;
 
 namespace Thing.Tests.Integration.Db
 {
-    public class ThingTests : BaseTest
+    public class ThingSpecs : SpecsForDb
     {
         private readonly IMediator _mediator;
 
-        public ThingTests(IMediator mediator)
+        public ThingSpecs(IMediator mediator)
         {
             _mediator = mediator;
         }

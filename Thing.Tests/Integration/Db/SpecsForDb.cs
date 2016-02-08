@@ -4,7 +4,7 @@ using Thing.Tests.Integration.Utils;
 
 namespace Thing.Tests.Integration.Db
 {
-    public abstract class BaseTest
+    public abstract class SpecsForDb
     {
         protected void Tx(Action<ThingDbContext> action)
         {
@@ -26,13 +26,7 @@ namespace Thing.Tests.Integration.Db
 
         protected void Check(Action<ThingDbContext> action)
         {
-            var context = DbLocal.GetTypedDbContext<ThingDbContext>();
-            action(context);
-        }
-
-        protected void Seed()
-        {
-            Tx(db => { db.Things.Add(new Core.Domain.Thing("my-first", "one").SetAddress("Via Morimondo", "20100")); });
+            action(DbLocal.GetTypedDbContext<ThingDbContext>());
         }
     }
 }

@@ -40,9 +40,10 @@ namespace Thing.Tests.Integration.Utils
 
             _instance = new ThreadLocal<ILifetimeScope>(ValueFactory);
 
+            //  create nested container
             if (_instance.Value == null)
             {
-                throw new InvalidOperationException("Container is not created");
+                throw new InvalidOperationException("Container nested is not created");
             }
         }
 

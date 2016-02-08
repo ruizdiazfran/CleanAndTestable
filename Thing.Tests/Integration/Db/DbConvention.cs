@@ -18,7 +18,7 @@ namespace Thing.Tests.Integration.Db
         public DbConvention()
         {
             Classes.InTheSameNamespaceAs(typeof (DbConvention))
-                .Where(_ => _.Name.EndsWith("Tests"));
+                .Where(_ => _.Name.EndsWith(Constant.FixtureSuffix));
 
             Methods.Where(_ => _.IsVoid() || _.IsAsync());
 
@@ -40,10 +40,13 @@ namespace Thing.Tests.Integration.Db
         private static void ReplaceServices(IContainer container)
         {
             var cb = new ContainerBuilder();
+            //  register test
             cb.RegisterAssemblyTypes(typeof (DbConvention).Assembly)
-                .Where(_ => _.Name.EndsWith("Tests"));
+                .Where(_ => _.Name.EndsWith(Constant.FixtureSuffix));
+            //  inject local DbContext
             cb.Register(_ => DbLocal.GetTypedDbContext<ThingDbContext>())
                 .AsSelf();
+            //  update container
             cb.Update(container);
         }
     }
