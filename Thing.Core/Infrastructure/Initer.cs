@@ -52,18 +52,11 @@ namespace Thing.Core.Infrastructure
                 }
             }
 
-            private static async Task InitializeDbAsync()
+            private static Task InitializeDbAsync()
             {
-                Database.SetInitializer(new DropCreateDatabaseAlways<ThingDbContext>());
+                Database.SetInitializer(new DefaultDbInitializer());
 
-                using (var db = new ThingDbContext())
-                {
-                    db.Things.Add(new Domain.Thing("my-first", "one").SetAddress("Via Morimondo", "20100"));
-                    db.Things.Add(new Domain.Thing("my-second", "two").SetAddress("Via Barona", "20100"));
-                    db.Things.Add(new Domain.Thing("my-thirdy", "three").SetAddress("Via Watts", "20100"));
-
-                    await db.SaveChangesAsync();
-                }
+                return Task.CompletedTask;
             }
         }
     }

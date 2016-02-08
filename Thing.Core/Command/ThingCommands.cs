@@ -23,5 +23,17 @@ namespace Thing.Core.Command
                 }
             }
         }
+
+        public class Delete : IAsyncRequest<Unit>, IValidable
+        {
+            public string Id { get; set; }
+            public class Validator : AbstractValidator<Delete>
+            {
+                public Validator()
+                {
+                    RuleFor(_ => _.Id).NotEmpty();
+                }
+            }
+        }
     }
 }

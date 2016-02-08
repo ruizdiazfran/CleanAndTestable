@@ -63,10 +63,6 @@
       <HintPath>..\packages\AutoFixture.3.40.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Respawn, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Respawn.0.1.0.0\lib\net45\Respawn.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Should, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
       <Private>True</Private>
@@ -83,13 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\Db\ContainerTests.cs" />
+    <Compile Include="Integration\Db\BaseTest.cs" />
+    <Compile Include="Integration\Db\ThingTests.cs" />
     <Compile Include="Integration\InitializeAutoMapper.cs" />
     <Compile Include="Integration\InitializeContainer.cs" />
     <Compile Include="Integration\InitializeDatabase.cs" />
     <Compile Include="Integration\RespawnDbData.cs" />
-    <Compile Include="Integration\Db\ThingCrudAnotherTests.cs" />
-    <Compile Include="Integration\Db\ThingCrudTests.cs" />
     <Compile Include="Integration\Db\DbConvention.cs" />
     <Compile Include="Integration\Utils\ContainerLocal.cs" />
     <Compile Include="Integration\Utils\DbLocal.cs" />

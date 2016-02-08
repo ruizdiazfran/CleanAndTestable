@@ -10,12 +10,20 @@ namespace Thing.Core.Infrastructure.Persistence
 
         public ThingDbContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {
-            Debug.WriteLine($"Create {nameof(ThingDbContext)}");
+            Debug.WriteLine($"Create {nameof(ThingDbContext)} {nameOrConnectionString}");
+            Configure();
         }
 
         public ThingDbContext()
         {
             Debug.WriteLine($"Create {nameof(ThingDbContext)}");
+            Configure();
+        }
+
+        private void Configure()
+        {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public DbSet<Domain.Thing> Things { get; set; }

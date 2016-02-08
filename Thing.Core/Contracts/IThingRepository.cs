@@ -11,6 +11,8 @@ namespace Thing.Core.Contracts
 
         Task<IEnumerable<Domain.Thing>> GetAllAsync();
 
-        void Add(Domain.Thing entity);
+        Task Add(Domain.Thing entity);
+
+        Task Delete(string id);
     }
 }

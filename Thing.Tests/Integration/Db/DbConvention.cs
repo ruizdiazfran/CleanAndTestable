@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System;
+using System.Data.Entity;
+using Autofac;
 using Fixie;
 using Thing.Api.Infrastructure;
 using Thing.Core.Infrastructure.Persistence;
@@ -10,8 +12,8 @@ namespace Thing.Tests.Integration.Db
     {
         static DbConvention()
         {
-            DbLocal.DbContextFactory = c => new ThingDbContext(c);
-            CompositionRoot.Override = Replace;
+            DbLocal.DbContextFactory = CreateDbContext;
+            CompositionRoot.Override = ReplaceServices;
         }
 
         public DbConvention()
@@ -31,7 +33,15 @@ namespace Thing.Tests.Integration.Db
                 .Wrap<RespawnDbData>();
         }
 
-        private static void Replace(IContainer container)
+        private static ThingDbContext CreateDbContext(string connectionString)
+        {
+            var dbContext = new ThingDbContext(connectionString);
+            dbContext.Database.Log = Console.WriteLine;
+            new DefaultDbInitializer().InitializeDatabase(dbContext);
+            return dbContext;
+        }
+
+        private static void ReplaceServices(IContainer container)
         {
             var cb = new ContainerBuilder();
             cb.RegisterAssemblyTypes(typeof (DbConvention).Assembly)

@@ -39,5 +39,13 @@ namespace Thing.Api.Controllers
 
             return Ok();
         }
+
+        [Route("")]
+        public async Task<IHttpActionResult> Post([FromUri] ThingCommand.Delete input)
+        {
+            await _mediator.SendAsync(input);
+
+            return Ok();
+        }
     }
 }

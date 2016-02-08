@@ -9,7 +9,6 @@ namespace Thing.Tests.Integration
     {
         public void Execute(Case context, Action next)
         {
-            DbLocal.RespawnDatabase();
             Debug.WriteLine($"      Start Case {nameof(RespawnDbData)} " + context.Name);
             next();
             Debug.WriteLine($"      End Case {nameof(RespawnDbData)} " + context.Name);

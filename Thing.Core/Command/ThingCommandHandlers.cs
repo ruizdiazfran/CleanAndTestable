@@ -4,7 +4,8 @@ using Thing.Core.Contracts;
 
 namespace Thing.Core.Command
 {
-    public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>
+    public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>,
+         IAsyncRequestHandler<ThingCommand.Delete, Unit>
     {
         private readonly IThingRepository _thingRepository;
 
@@ -13,15 +14,22 @@ namespace Thing.Core.Command
             _thingRepository = thingRepository;
         }
 
-        public Task<Unit> Handle(ThingCommand.Create message)
+        public async Task<Unit> Handle(ThingCommand.Create message)
         {
 #pragma warning disable 618
             var entity = new Domain.Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);
 #pragma warning restore 618
 
-            _thingRepository.Add(entity);
+            await _thingRepository.Add(entity);
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Value;
+        }
+
+        public async Task<Unit> Handle(ThingCommand.Delete message)
+        {
+            await _thingRepository.Delete(message.Id);
+
+            return Unit.Value;
         }
     }
 }
