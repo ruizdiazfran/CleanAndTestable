@@ -7,11 +7,13 @@ namespace Thing.Core.Command
     public class ThingCommandHandlers : IAsyncRequestHandler<ThingCommand.Create, Unit>,
         IAsyncRequestHandler<ThingCommand.Delete, Unit>
     {
+        private readonly ISecurityPoint _securityPoint;
         private readonly IThingRepository _thingRepository;
 
-        public ThingCommandHandlers(IThingRepository thingRepository)
+        public ThingCommandHandlers(IThingRepository thingRepository, ISecurityPoint securityPoint)
         {
             _thingRepository = thingRepository;
+            _securityPoint = securityPoint;
         }
 
         public async Task<Unit> Handle(ThingCommand.Create message)
@@ -20,14 +22,22 @@ namespace Thing.Core.Command
             var entity = new Domain.Thing(message.Id, message.Name).SetAddress(message.AddressLine, message.AddressZip);
 #pragma warning restore 618
 
-            await _thingRepository.Add(entity);
+            if (_securityPoint.CanDoWork(entity))
+            {
+                await _thingRepository.Add(entity);
+            }
 
             return Unit.Value;
         }
 
         public async Task<Unit> Handle(ThingCommand.Delete message)
         {
-            await _thingRepository.Delete(message.Id);
+            var entity = await _thingRepository.GetByIdAsync(message.Id);
+
+            if (_securityPoint.CanDoWork(entity))
+            {
+                await _thingRepository.Delete(message.Id);
+            }
 
             return Unit.Value;
         }

@@ -105,6 +105,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Integration\Api\" />
     <Folder Include="Unit\" />
   </ItemGroup>
   <ItemGroup>
