@@ -41,7 +41,7 @@ namespace Thing.Api.Controllers
         }
 
         [Route("")]
-        public async Task<IHttpActionResult> Post([FromUri] ThingCommand.Delete input)
+        public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
         {
             await _mediator.SendAsync(input);
 

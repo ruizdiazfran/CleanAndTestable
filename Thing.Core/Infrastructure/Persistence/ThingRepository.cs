@@ -10,14 +10,12 @@ namespace Thing.Core.Infrastructure.Persistence
     public class ThingRepository : IThingRepository
     {
         private readonly DbSet<Domain.Thing> _dataSet;
-        private readonly ThingDbContext _dbContext;
 
         public ThingRepository(ThingDbContext dbContext)
         {
-            _dbContext = dbContext;
-            Debug.WriteLine($"Create {nameof(ThingRepository)}");
-
             if (dbContext == null) throw new ArgumentNullException(nameof(dbContext));
+
+            Debug.WriteLine($"Create {nameof(ThingRepository)} {dbContext.Identifier}");
 
             _dataSet = dbContext.Things;
         }
@@ -38,7 +36,7 @@ namespace Thing.Core.Infrastructure.Persistence
 
             if (entity == null)
             {
-                throw new KeyNotFoundException(id);
+                throw new EntityNotFound(id);
             }
 
             return entity;
@@ -52,8 +50,7 @@ namespace Thing.Core.Infrastructure.Persistence
 
         public async Task Delete(string id)
         {
-            var entity = await GetByIdAsync(id).ConfigureAwait(false);
-            _dataSet.Remove(entity);
+            _dataSet.Remove(await GetByIdAsync(id).ConfigureAwait(false));
         }
     }
 }

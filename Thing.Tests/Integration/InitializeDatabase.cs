@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using Fixie;
-using Thing.Tests.Integration.Utils;
+using Thing.Tests.Utils;
 
 namespace Thing.Tests.Integration
 {

@@ -74,6 +74,7 @@
     <Compile Include="Domain\IAggregateRoot.cs" />
     <Compile Include="Domain\Thing.cs" />
     <Compile Include="Infrastructure\Persistence\DefaultDbInitializer.cs" />
+    <Compile Include="Contracts\EntityNotFound.cs" />
     <Compile Include="Infrastructure\Pipeline\AsyncValidationRequestHandler.cs" />
     <Compile Include="Infrastructure\Initer.cs" />
     <Compile Include="Infrastructure\Persistence\ThingDbContext.cs" />

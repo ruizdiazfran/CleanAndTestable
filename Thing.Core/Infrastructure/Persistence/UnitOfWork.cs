@@ -14,7 +14,7 @@ namespace Thing.Core.Infrastructure.Persistence
 
         public UnitOfWork(ThingDbContext dbContext)
         {
-            Debug.WriteLine($"Create {nameof(UnitOfWork)}");
+            Debug.WriteLine($"Create {nameof(UnitOfWork)} {dbContext.Identifier}");
             _dbContext = dbContext;
         }
 

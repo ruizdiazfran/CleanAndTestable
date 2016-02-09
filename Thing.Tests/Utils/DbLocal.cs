@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 
-namespace Thing.Tests.Integration.Utils
+namespace Thing.Tests.Utils
 {
     public sealed class DbLocal : IDisposable
     {

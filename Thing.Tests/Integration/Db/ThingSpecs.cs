@@ -1,9 +1,11 @@
 using System;
 using System.Data.Entity;
-using FluentValidation;
+using System.Data.Entity.Validation;
 using MediatR;
 using Should;
+using Should.Core.Exceptions;
 using Thing.Core.Command;
+using Thing.Core.Contracts;
 using Thing.Core.Query;
 
 namespace Thing.Tests.Integration.Db
@@ -17,65 +19,111 @@ namespace Thing.Tests.Integration.Db
             _mediator = mediator;
         }
 
-        public void Should_get_all_things()
+        public void Should_get_all(ThingQuery.GetAll request)
         {
-            var request = new ThingQuery.GetAll();
+            //  Arrange
+
+            //  Act
             var result = _mediator.SendAsync(request).Result;
+
+            //  Assert
             result.Count.ShouldEqual(4);
         }
 
-        public void Should_get_one_things()
+        public void Should_get_one(ThingQuery.GetById request)
         {
-            var request = new ThingQuery.GetById {Id = "my-first"};
+            //  Arrange
+            request.Id = "my-first";
+
+            //  Act
             var result = _mediator.SendAsync(request).Result;
-            result.Id.ShouldEqual("my-first");
+
+            //  Assert
+            result.Id.ShouldEqual(request.Id);
         }
 
-        public void Should_not_create_things()
+        public void Should_throw_ex_when_is_not_exists(ThingQuery.GetById request)
         {
-            var request = new ThingCommand.Create();
             try
             {
+                //  Arrange
+
+                //  Act
                 _mediator.SendAsync(request).Wait();
             }
             catch (AggregateException ex)
             {
-                ex.InnerException.ShouldBeType(typeof (ValidationException));
+                //  Assert
+                ex.InnerException.ShouldBeType(typeof(EntityNotFound));
+                return;
             }
+
+            throw new AssertException();
         }
 
-        public void Should_create_things()
+        public void Should_not_create_when_id_is_null(ThingCommand.Create request)
         {
-            const string id = "test-id";
-            var request = new ThingCommand.Create {Id = id, Name = "Test", AddressLine = "Test", AddressZip = "20133"};
-            Tx(db => _mediator.SendAsync(request).Wait());
-            Check(db => db.Things.AnyAsync(_ => _.Id == id).Result.ShouldBeTrue());
+            try
+            {
+                //  Arrange
+                request.Id = null;
+            
+                //  Act
+                Persist(() => _mediator.SendAsync(request).Wait()  );
+            }
+            catch (Exception ex)
+            {
+                //  Assert
+                ex.ShouldBeType(typeof (DbEntityValidationException));
+                return;
+            }
+
+            throw new AssertException();
         }
 
-        public void Should_not_create_secret_things()
+        public void Should_create(ThingCommand.Create request)
         {
-            const string id = "test-secret-id";
-            var request = new ThingCommand.Create { Id = id, Name = "secret", AddressLine = "Test", AddressZip = "20133" };
-            Tx(db => _mediator.SendAsync(request).Wait());
-            Check(db => db.Things.AnyAsync(_ => _.Id == id).Result.ShouldBeFalse());
+            //  Act
+
+            //  Arrange
+            Persist(() => _mediator.SendAsync(request).Wait());
+
+            //  Assert
+            Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeTrue());
         }
 
-        public void Should_delete_things()
+        public void Should_not_create_when_name_is_secret(ThingCommand.Create request)
         {
-            const string id = "my-thirdy";
-            var request = new ThingCommand.Delete {Id = id};
-            Check(db => db.Things.FirstOrDefaultAsync(_ => _.Id == id).Result.ShouldNotBeNull());
-            Tx(db => _mediator.SendAsync(request).Wait());
-            Check(db => db.Things.AnyAsync(_ => _.Id == id).Result.ShouldBeFalse());
+            //  Act
+            request.Name = "secret";
+
+            //  Arrange
+            Persist(() => _mediator.SendAsync(request).Wait());
+
+            //  Assert
+            Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeFalse());
         }
 
-        public void Should_not_delete_secret_things()
+        public void Should_delete(ThingCommand.Delete request)
         {
-            const string id = "my-fourthy";
-            var request = new ThingCommand.Delete { Id = id };
-            Check(db => db.Things.FirstOrDefaultAsync(_ => _.Id == id).Result.ShouldNotBeNull());
-            Tx(db => _mediator.SendAsync(request).Wait());
-            Check(db => db.Things.AnyAsync(_ => _.Id == id).Result.ShouldBeTrue());
+            //  Act
+            request.Id = "my-thirdy";
+
+            //  Arrange
+            Persist(()=>_mediator.SendAsync(request).Wait());
+
+            //  Assert
+            Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeFalse());
+        }
+
+        public void Should_not_delete_when_name_is_secret(ThingCommand.Delete request)
+        {
+            //  Act
+            request.Id = "my-fourthy";
+
+            Persist(() => _mediator.SendAsync(request).Wait());
+
+            Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeTrue());
         }
     }
 }

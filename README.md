@@ -3,10 +3,10 @@ A project to show how to put in place a simple and testable C# solution with som
 
 #Goals
 
-Below the code for a specification:
+Below the code for a simple integration test (for db):
 
 ```c#
-public class ThingTests : BaseTest
+public class ThingSpecs : SpecsForDb
 {
     private readonly IMediator _mediator;
 
@@ -15,12 +15,27 @@ public class ThingTests : BaseTest
         _mediator = mediator;
     }
 
-    public void Should_create_things()
+    public void Should_create(ThingCommand.Create request)
     {
-        const string id = "test-id";
-        var request = new ThingCommand.Create {Id = id, Name = "Test", AddressLine = "Test", AddressZip = "20133"};
-        Tx(db => _mediator.SendAsync(request).Wait());
-        Check(db => db.Things.AnyAsync(_ => _.Id == id).Result.ShouldBeTrue());
+        //  Act
+
+        //  Arrange
+        Persist(() => _mediator.SendAsync(request).Wait());
+
+        //  Assert
+        Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeTrue());
+    }
+
+    public void Should_delete(ThingCommand.Delete request)
+    {
+        //  Act
+        request.Id = "my-thirdy";
+
+        //  Arrange
+        Persist(()=>_mediator.SendAsync(request).Wait());
+
+        //  Assert
+        Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeFalse());
     }
 }
 ```
@@ -40,6 +55,14 @@ public class ThingController : ApiController
 
    [Route("")]
     public async Task<IHttpActionResult> Post([FromBody] ThingCommand.Create input)
+    {
+        await _mediator.SendAsync(input);
+
+        return Ok();
+    }
+
+    [Route("")]
+    public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
     {
         await _mediator.SendAsync(input);
 

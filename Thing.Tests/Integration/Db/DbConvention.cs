@@ -1,13 +1,13 @@
 ﻿using System;
 using Autofac;
-using Fixie;
+using Ploeh.AutoFixture;
 using Thing.Api.Infrastructure;
 using Thing.Core.Infrastructure.Persistence;
-using Thing.Tests.Integration.Utils;
+using Thing.Tests.Utils;
 
 namespace Thing.Tests.Integration.Db
 {
-    public class DbConvention : Convention
+    public class DbConvention : FixieConventionBase
     {
         static DbConvention()
         {
@@ -17,16 +17,17 @@ namespace Thing.Tests.Integration.Db
 
         public DbConvention()
         {
-            Classes.InTheSameNamespaceAs(typeof (DbConvention))
-                .Where(_ => _.Name.EndsWith(Constant.FixtureSuffix));
-
-            Methods.Where(_ => _.IsVoid() || _.IsAsync());
+            Classes.InTheSameNamespaceAs(typeof (DbConvention));
 
             ClassExecution
                 .Wrap<InitializeDatabase>()
                 .Wrap<InitializeContainer>()
-                .Wrap<InitializeAutoMapper>()
-                .UsingFactory(ContainerLocal.Resolve);
+                .Wrap<InitializeAutoMapper>();
+        }
+
+        protected override object CustomCtorFactory(Type t)
+        {
+            return ContainerLocal.Resolve(t);
         }
 
         private static ThingDbContext CreateDbContext(string connectionString)

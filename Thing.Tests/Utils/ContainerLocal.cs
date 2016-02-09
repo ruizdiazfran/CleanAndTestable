@@ -4,7 +4,7 @@ using System.Threading;
 using Autofac;
 using Thing.Api.Infrastructure;
 
-namespace Thing.Tests.Integration.Utils
+namespace Thing.Tests.Utils
 {
     public static class ContainerLocal
     {
@@ -35,7 +35,7 @@ namespace Thing.Tests.Integration.Utils
         {
             if (_instance != null)
             {
-                End();
+                return;
             }
 
             _instance = new ThreadLocal<ILifetimeScope>(ValueFactory);
