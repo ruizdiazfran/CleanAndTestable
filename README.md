@@ -1,9 +1,13 @@
 # CleanAndTestable
-A project to show how to put in place a simple and testable C# solution with some useful patterns like CQS, UnitOfWork, Mediator and so on.
+A project to show how to put in place a simple and testable C# solution with some useful patterns like CQS, UnitOfWork, Mediator,  Dependency Injection Pattern, Composition Root and so on.
 
 #Goals
+Our motto for testing is "low ceremony" and "adhere to application".
 
-Below the code for a simple integration test (for db):
+Heavily inspired from [https://vimeo.com/68390508](https://vimeo.com/68390508) but with some difference because Moq is not used during test phase. Insted of Moq we use the real IOC container with specific overrides for some infrastructure (like Db or WebApi endpoint).
+Low ceremony.
+
+Below the code for a simple integration test (for db).
 
 ```c#
 public class ThingSpecs : SpecsForDb
