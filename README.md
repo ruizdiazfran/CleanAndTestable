@@ -7,7 +7,38 @@ Our motto for testing is "low ceremony" and "adhere to application".
 Heavily inspired from [https://vimeo.com/68390508](https://vimeo.com/68390508) but with some difference because Moq is not used during test phase. Insted of Moq we use the real IOC container with specific overrides for some infrastructure (like Db or WebApi endpoint).
 Low ceremony.
 
-Below the code for a simple integration test (for db).
+Below the code for a simple controller:
+
+```c#
+[RoutePrefix("api/thing")]
+public class ThingController : ApiController
+{
+    private readonly IMediator _mediator;
+
+    public ThingController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+   [Route("")]
+    public async Task<IHttpActionResult> Post([FromBody] ThingCommand.Create input)
+    {
+        await _mediator.SendAsync(input);
+
+        return Ok();
+    }
+
+    [Route("")]
+    public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
+    {
+        await _mediator.SendAsync(input);
+
+        return Ok();
+    }
+}
+```
+
+Code for an integration test (for db).
 
 ```c#
 public class ThingSpecs : SpecsForDb
@@ -44,36 +75,35 @@ public class ThingSpecs : SpecsForDb
 }
 ```
 
-And below the code for a controller. Not so different ?
+Code for an integration test (for api).
 
 ```c#
-[RoutePrefix("api/thing")]
-public class ThingController : ApiController
-{
-    private readonly IMediator _mediator;
-
-    public ThingController(IMediator mediator)
+    public void Should_get_one()
     {
-        _mediator = mediator;
+        //  Arrange
+        const string id = "my-first";
+
+        //  Act
+        var response = _httpClient.GetAsync($"/api/thing/{id}").Result;
+
+        //  Assert
+        response.StatusCode.ShouldEqual(HttpStatusCode.OK);
     }
 
-   [Route("")]
-    public async Task<IHttpActionResult> Post([FromBody] ThingCommand.Create input)
+    public void Should_create(ThingCommand.Create request)
     {
-        await _mediator.SendAsync(input);
+        //  Act
 
-        return Ok();
+        //  Arrange
+        var response = _httpClient.PostAsJsonAsync($"/api/thing",request).Result;
+
+        //  Assert
+        response.StatusCode.ShouldEqual(HttpStatusCode.Created);
+        response.Headers.Location.AbsoluteUri.ShouldEqual($"http://localhost/api/thing/{request.Id}");
     }
-
-    [Route("")]
-    public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
-    {
-        await _mediator.SendAsync(input);
-
-        return Ok();
-    }
-}
 ```
+
+Not so different ?
 
 #Requirements
 SQL Server LocalDB 2012 [link to download](http://www.microsoft.com/en-us/download/details.aspx?id=29062)
