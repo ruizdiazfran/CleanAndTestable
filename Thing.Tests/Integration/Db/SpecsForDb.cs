@@ -1,8 +1,6 @@
 using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using Thing.Core.Infrastructure.Persistence;
-using Thing.Tests.Utils;
 
 namespace Thing.Tests.Integration.Db
 {
@@ -10,7 +8,7 @@ namespace Thing.Tests.Integration.Db
     {
         protected void Persist(Action action)
         {
-            var dbContext = DbLocal.GetTypedDbContext<ThingDbContext>();
+            var dbContext = ContainerLocal.Resolve<ThingDbContext>();
             var tx = dbContext.Database.BeginTransaction();
 
             try
@@ -51,7 +49,8 @@ namespace Thing.Tests.Integration.Db
 
         protected void Do(Action<ThingDbContext> action)
         {
-            action(DbLocal.GetTypedDbContext<ThingDbContext>());
+            var dbContext = ContainerLocal.Resolve<ThingDbContext>();
+            action(dbContext);
         }
     }
 }

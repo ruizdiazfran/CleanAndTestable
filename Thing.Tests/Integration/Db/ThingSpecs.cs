@@ -54,7 +54,7 @@ namespace Thing.Tests.Integration.Db
             catch (AggregateException ex)
             {
                 //  Assert
-                ex.InnerException.ShouldBeType(typeof(EntityNotFound));
+                ex.InnerException.ShouldBeType(typeof (EntityNotFound));
                 return;
             }
 
@@ -67,9 +67,9 @@ namespace Thing.Tests.Integration.Db
             {
                 //  Arrange
                 request.Id = null;
-            
+
                 //  Act
-                Persist(() => _mediator.SendAsync(request).Wait()  );
+                Persist(() => _mediator.SendAsync(request).Wait());
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace Thing.Tests.Integration.Db
             request.Id = "my-thirdy";
 
             //  Arrange
-            Persist(()=>_mediator.SendAsync(request).Wait());
+            Persist(() => _mediator.SendAsync(request).Wait());
 
             //  Assert
             Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeFalse());

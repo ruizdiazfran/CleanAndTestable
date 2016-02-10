@@ -6,7 +6,6 @@ namespace Thing.Core.Contracts
     {
         public EntityNotFound(string id) : base($"Entity not found {id}")
         {
-            
         }
     }
 }

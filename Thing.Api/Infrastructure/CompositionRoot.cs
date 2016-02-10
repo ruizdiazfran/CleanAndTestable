@@ -18,12 +18,11 @@ namespace Thing.Api.Infrastructure
 {
     public class CompositionRoot
     {
-        public static Action<IContainer> Override = c => { };
-        private static readonly Lazy<IContainer> Bootstrapper = new Lazy<IContainer>(Initialize, true);
+        private static readonly Lazy<IContainer> Bootstrapper = new Lazy<IContainer>(()=> new CompositionRoot().GetRegistrations().Build(), true);
 
         public static IContainer Container => Bootstrapper.Value;
 
-        private static IContainer Initialize()
+        public ContainerBuilder GetRegistrations()
         {
             var builder = new ContainerBuilder();
 
@@ -66,9 +65,7 @@ namespace Thing.Api.Infrastructure
             builder.RegisterGenericDecorator(typeof (AsyncValidationRequestHandler<,>), typeof (IAsyncRequestHandler<,>),
                 "async-handlers"); // The outermost decorator should not have a toKey
 
-            var container = builder.Build();
-            Override(container);
-            return container;
+            return builder;
         }
 
         private static void RegisterValidators(ContainerBuilder builder)

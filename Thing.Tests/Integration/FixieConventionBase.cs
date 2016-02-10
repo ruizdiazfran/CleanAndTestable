@@ -5,10 +5,9 @@ using System.Reflection;
 using Fixie;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
-using Thing.Tests.Utils;
 using Fixture = Ploeh.AutoFixture.Fixture;
 
-namespace Thing.Tests
+namespace Thing.Tests.Integration
 {
     public abstract class FixieConventionBase : Convention
     {
@@ -43,10 +42,9 @@ namespace Thing.Tests
             return new SpecimenContext(_fixture).Resolve(t);
         }
 
-
         protected virtual object CustomCtorFactory(Type t)
         {
-            return new SpecimenContext(_fixture).Resolve(t);
+            return ContainerLocal.Resolve(t);
         }
-    }    
+    }
 }
