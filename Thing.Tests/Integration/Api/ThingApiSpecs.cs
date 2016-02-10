@@ -56,5 +56,27 @@ namespace Thing.Tests.Integration.Api
             response.Headers.Location.AbsoluteUri.ShouldEqual($"http://localhost/api/thing/{request.Id}");
         }
 
+        public void Should_delete(ThingCommand.Delete request)
+        {
+            //  Act
+            request.Id = "my-thirdy";
+
+            //  Arrange
+            var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
+
+            //  Assert
+            response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+        }
+
+        public void Should_not_delete_if_id_not_exists(ThingCommand.Delete request)
+        {
+            //  Act
+
+            //  Arrange
+            var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
+
+            //  Assert
+            response.StatusCode.ShouldEqual(HttpStatusCode.NotFound);
+        }
     }
 }

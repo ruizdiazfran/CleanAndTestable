@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using Fixie;
-using Thing.Core.Infrastructure.Mapper;
 
 namespace Thing.Tests.Integration
 {
@@ -9,8 +8,6 @@ namespace Thing.Tests.Integration
     {
         public void Execute(Class context, Action next)
         {
-            AutoMapperBootstrapper.Initialize();
-
             using (ContainerLocal.Create())
             {
                 Debug.WriteLine("   Start " + nameof(InitializeTestClass));

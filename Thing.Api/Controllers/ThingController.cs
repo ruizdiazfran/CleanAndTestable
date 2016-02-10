@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
+using Thing.Core.Contracts;
 using Thing.Core.Command;
 using Thing.Core.Query;
 
@@ -27,9 +28,16 @@ namespace Thing.Api.Controllers
         [Route("{id}", Name = "ThingDetail")]
         public async Task<IHttpActionResult> Get([FromUri] ThingQuery.GetById input)
         {
-            var result = await _mediator.SendAsync(input);
+            try
+            {
+                var result = await _mediator.SendAsync(input);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (EntityNotFound)
+            {
+                return NotFound();
+            }
         }
 
         [Route("")]
@@ -40,10 +48,17 @@ namespace Thing.Api.Controllers
             return CreatedAtRoute("ThingDetail",new {id= input.Id},input);
         }
 
-        [Route("")]
+        [Route("{id}"), HttpDelete]
         public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
         {
-            await _mediator.SendAsync(input);
+            try
+            {
+                await _mediator.SendAsync(input);
+            }
+            catch (EntityNotFound)
+            {
+                return NotFound();
+            }
 
             return Ok();
         }
