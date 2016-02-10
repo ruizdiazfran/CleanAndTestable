@@ -18,13 +18,9 @@ namespace Thing.Core.Infrastructure.Persistence
             _dbContext = dbContext;
         }
 
-        public IThingRepository GetThingRepository()
-        {
-            return new ThingRepository(_dbContext);
-        }
-
         public Task StartAsync()
         {
+            Debug.WriteLine($"  Start Transaction {_dbContext.Identifier}");
             _dbTransaction = _dbContext.Database.BeginTransaction(IsolationLevel.ReadCommitted);
             return Task.CompletedTask;
         }
@@ -36,10 +32,12 @@ namespace Thing.Core.Infrastructure.Persistence
                 if (_dbTransaction != null && exception != null)
                 {
                     _dbTransaction.Rollback();
+                    Debug.WriteLine($"  Rollback with Skip Transaction {_dbContext.Identifier}");
                     return;
                 }
 
                 await _dbContext.SaveChangesAsync().ConfigureAwait(false);
+                Debug.WriteLine($"  Commit Transaction {_dbContext.Identifier}");
 
                 _dbTransaction?.Commit();
             }
@@ -48,6 +46,7 @@ namespace Thing.Core.Infrastructure.Persistence
                 if (_dbTransaction?.UnderlyingTransaction.Connection != null)
                 {
                     _dbTransaction?.Rollback();
+                    Debug.WriteLine($"  Rollback Transaction {_dbContext.Identifier}");
                 }
 
                 throw;
@@ -58,6 +57,7 @@ namespace Thing.Core.Infrastructure.Persistence
                 {
                     _dbTransaction.Dispose();
                     _dbTransaction = null;
+                    Debug.WriteLine($"  Dispose Transaction {_dbContext.Identifier}");
                 }
             }
         }

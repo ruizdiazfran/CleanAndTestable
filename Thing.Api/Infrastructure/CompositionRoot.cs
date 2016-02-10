@@ -18,7 +18,8 @@ namespace Thing.Api.Infrastructure
 {
     public class CompositionRoot
     {
-        private static readonly Lazy<IContainer> Bootstrapper = new Lazy<IContainer>(()=> new CompositionRoot().GetRegistrations().Build(), true);
+        private static readonly Lazy<IContainer> Bootstrapper =
+            new Lazy<IContainer>(() => new CompositionRoot().GetRegistrations().Build(), true);
 
         public static IContainer Container => Bootstrapper.Value;
 
@@ -31,15 +32,15 @@ namespace Thing.Api.Infrastructure
             //Security
             builder.Register<ISecurityPoint>(_ => new DefaultSecurityPoint()).SingleInstance();
 
-            //  UnitOfWork
+            //  Data & Co.
             builder.Register(_ => new UnitOfWork(_.Resolve<ThingDbContext>()))
                 .InstancePerLifetimeScope().AsImplementedInterfaces();
 
-            builder.Register(_ => _.Resolve<IUnitOfWork>().GetThingRepository())
-                .InstancePerLifetimeScope();
+            builder.Register(_ => new ThingRepository(_.Resolve<ThingDbContext>()))
+                .InstancePerLifetimeScope().AsImplementedInterfaces();
 
             builder.RegisterType<ThingDbContext>()
-                .AsSelf();
+                .AsSelf().InstancePerLifetimeScope();
 
             //  Validators
             RegisterValidators(builder);

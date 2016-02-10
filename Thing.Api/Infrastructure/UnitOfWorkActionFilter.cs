@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Thing.Core.Contracts;
-using Thing.Core.Infrastructure;
 
 namespace Thing.Api.Infrastructure
 {
@@ -20,10 +19,10 @@ namespace Thing.Api.Infrastructure
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext,
             CancellationToken cancellationToken)
         {
-            if (!await Initer.HasCompleted())
-            {
-                throw new InvalidOperationException("UOW is missing");
-            }
+            //if (!await Initer.HasCompleted())
+            //{
+            //    throw new InvalidOperationException("UOW is missing");
+            //}
 
             await GetUnitOfWork(actionContext.Request).StartAsync();
         }

@@ -17,23 +17,16 @@ namespace Thing.Tests.Integration
             Debug.WriteLine($"Create nested container");
             var builder = new CompositionRoot().GetRegistrations();
 
-            //  register test
+            //  register tests
             builder.RegisterAssemblyTypes(typeof (DbConvention).Assembly)
                 .Where(_ => _.Name.EndsWith(Constant.FixtureSuffix));
 
             //  inject local DbContext
-            var db = CreateDbContext();
+            var db = DbUtil.CreateDbContext();
+            new DefaultDbInitializer().InitializeDatabase(db);
             builder.Register(_ => db);
 
             return builder.Build().BeginLifetimeScope();
-        }
-
-        private static ThingDbContext CreateDbContext()
-        {
-            var dbContext = new ThingDbContext();
-            dbContext.Database.Log = Console.WriteLine;
-            new DefaultDbInitializer().InitializeDatabase(dbContext);
-            return dbContext;
         }
 
         public static T Resolve<T>()

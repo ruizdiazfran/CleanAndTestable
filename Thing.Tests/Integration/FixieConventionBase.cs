@@ -5,6 +5,7 @@ using System.Reflection;
 using Fixie;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Thing.Core.Infrastructure.Mapper;
 using Fixture = Ploeh.AutoFixture.Fixture;
 
 namespace Thing.Tests.Integration
@@ -15,6 +16,8 @@ namespace Thing.Tests.Integration
 
         protected FixieConventionBase()
         {
+            AutoMapperBootstrapper.Initialize();
+
             Classes
                 .NameEndsWith(Constant.FixtureSuffix);
 

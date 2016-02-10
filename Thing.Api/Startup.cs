@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Autofac;
 using Autofac.Integration.WebApi;
 using Microsoft.Owin;
 using Owin;
@@ -14,19 +15,29 @@ namespace Thing.Api
     {
         public void Configuration(IAppBuilder app)
         {
-            Initer.Initialize();
+            Init();
 
-            GlobalConfiguration.Configure(WebApiRegister.Register);
+            var configuration = new HttpConfiguration();
 
-            var container = CompositionRoot.Container;
+            WebApiRegister.Register(configuration);
 
-            var configuration = GlobalConfiguration.Configuration;
+            var container = GetContainer();
 
             configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             app.UseAutofacWebApi(configuration);
 
             app.UseWebApi(configuration);
+        }
+
+        protected virtual void Init()
+        {
+            Initer.Initialize();
+        }
+
+        protected virtual IContainer GetContainer()
+        {
+            return CompositionRoot.Container;
         }
     }
 }

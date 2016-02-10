@@ -24,7 +24,7 @@ namespace Thing.Api.Controllers
             return Ok(result);
         }
 
-        [Route("{id}")]
+        [Route("{id}", Name = "ThingDetail")]
         public async Task<IHttpActionResult> Get([FromUri] ThingQuery.GetById input)
         {
             var result = await _mediator.SendAsync(input);
@@ -37,7 +37,7 @@ namespace Thing.Api.Controllers
         {
             await _mediator.SendAsync(input);
 
-            return Ok();
+            return CreatedAtRoute("ThingDetail",new {id= input.Id},input);
         }
 
         [Route("")]
