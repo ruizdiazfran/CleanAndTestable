@@ -38,7 +38,7 @@ public class ThingController : ApiController
 }
 ```
 
-Code for an integration test (for db).
+Code for a db integration test.
 
 ```c#
 public class ThingSpecs : SpecsForDb
@@ -75,19 +75,16 @@ public class ThingSpecs : SpecsForDb
 }
 ```
 
-Code for an integration test (for api).
+Code for an api integration test.
 
 ```c#
-    public void Should_get_one()
+public class ThingApiSpecs : IDisposable
+{
+    private readonly HttpClient _httpClient;
+
+    public ThingApiSpecs(HttpClient httpClient)
     {
-        //  Arrange
-        const string id = "my-first";
-
-        //  Act
-        var response = _httpClient.GetAsync($"/api/thing/{id}").Result;
-
-        //  Assert
-        response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+        _httpClient = httpClient;
     }
 
     public void Should_create(ThingCommand.Create request)
@@ -101,6 +98,19 @@ Code for an integration test (for api).
         response.StatusCode.ShouldEqual(HttpStatusCode.Created);
         response.Headers.Location.AbsoluteUri.ShouldEqual($"http://localhost/api/thing/{request.Id}");
     }
+
+    public void Should_delete(ThingCommand.Delete request)
+    {
+        //  Act
+        request.Id = "my-thirdy";
+
+        //  Arrange
+        var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
+
+        //  Assert
+        response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+    }
+}
 ```
 
 Not so different ?
