@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Thing.Core.Infrastructure.Persistence;
 
 namespace Thing.Tests.Integration
@@ -14,6 +10,14 @@ namespace Thing.Tests.Integration
             var dbContext = new ThingDbContext();
             dbContext.Database.Log = Console.WriteLine;
             return dbContext;
-        }        
+        }
+
+        internal static void SeedDbContext()
+        {
+            using (var db = CreateDbContext())
+            {
+                new DefaultDbInitializer().InitializeDatabase(db);
+            }
+        }
     }
 }

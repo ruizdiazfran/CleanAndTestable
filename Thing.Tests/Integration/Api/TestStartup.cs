@@ -1,10 +1,7 @@
-using System;
-using System.Net.Http;
+using System.Web.Http;
 using Autofac;
-using Microsoft.Owin.Builder;
 using Thing.Api;
 using Thing.Api.Infrastructure;
-using Thing.Core.Infrastructure.Persistence;
 
 namespace Thing.Tests.Integration.Api
 {
@@ -12,29 +9,21 @@ namespace Thing.Tests.Integration.Api
     {
         protected override IContainer GetContainer()
         {
-            //  reseed each case
-            using (var db = DbUtil.CreateDbContext())
-            {
-                new DefaultDbInitializer().InitializeDatabase(db);
-            }
+            DbUtil.SeedDbContext();
 
             return new CompositionRoot().GetRegistrations().Build();
+        }
+
+        protected override HttpConfiguration GetConfiguration()
+        {
+            var httpConfiguration = base.GetConfiguration();
+            httpConfiguration.MessageHandlers.Add(new PreAuthenticatedUser());
+            return httpConfiguration;
         }
 
         protected override void Init()
         {
             //  skip init
-        }
-
-        public static HttpClient CreateHttpClient()
-        {
-            var app = new AppBuilder();
-            new TestStartup().Configuration(app);
-            var handler = new OwinHttpMessageHandler(app.Build());
-            return new HttpClient(handler)
-            {
-                BaseAddress = new Uri("http://localhost")
-            };
         }
     }
 }

@@ -1,30 +1,28 @@
 using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading;
 using Autofac;
 using Thing.Api.Infrastructure;
-using Thing.Core.Infrastructure.Persistence;
-using Thing.Tests.Integration.Db;
 
 namespace Thing.Tests.Integration
 {
     public static class ContainerLocal
     {
         private static ThreadLocal<ILifetimeScope> _instance;
+        private static readonly ThreadLocal<DbContext> Db = new ThreadLocal<DbContext>(DbUtil.CreateDbContext);
 
         private static ILifetimeScope ValueFactory()
         {
             Debug.WriteLine($"Create nested container");
-            var builder = new CompositionRoot().GetRegistrations();
 
-            //  register tests
-            builder.RegisterAssemblyTypes(typeof (DbConvention).Assembly)
-                .Where(_ => _.Name.EndsWith(Constant.FixtureSuffix));
+            var builder = new CompositionRoot()
+                .GetRegistrations()
+                .RegisterTests();
 
             //  inject local DbContext
-            var db = DbUtil.CreateDbContext();
-            new DefaultDbInitializer().InitializeDatabase(db);
-            builder.Register(_ => db);
+            DbUtil.SeedDbContext();
+            builder.Register(_ => Db.Value);
 
             return builder.Build().BeginLifetimeScope();
         }

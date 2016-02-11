@@ -17,7 +17,7 @@ namespace Thing.Api
         {
             Init();
 
-            var configuration = new HttpConfiguration();
+            var configuration = GetConfiguration();
 
             WebApiRegister.Register(configuration);
 
@@ -33,6 +33,11 @@ namespace Thing.Api
         protected virtual void Init()
         {
             Initer.Initialize();
+        }
+
+        protected virtual HttpConfiguration GetConfiguration()
+        {
+            return new HttpConfiguration();
         }
 
         protected virtual IContainer GetContainer()

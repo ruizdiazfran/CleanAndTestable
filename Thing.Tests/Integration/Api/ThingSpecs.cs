@@ -7,11 +7,11 @@ using Thing.Core.Query;
 
 namespace Thing.Tests.Integration.Api
 {
-    public class ThingApiSpecs : IDisposable
+    public class ThingSpecs : IDisposable
     {
         private readonly HttpClient _httpClient;
 
-        public ThingApiSpecs(HttpClient httpClient)
+        public ThingSpecs(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -49,7 +49,7 @@ namespace Thing.Tests.Integration.Api
             //  Act
 
             //  Arrange
-            var response = _httpClient.PostAsJsonAsync($"/api/thing",request).Result;
+            var response = _httpClient.PostAsJsonAsync($"/api/thing", request).Result;
 
             //  Assert
             response.StatusCode.ShouldEqual(HttpStatusCode.Created);

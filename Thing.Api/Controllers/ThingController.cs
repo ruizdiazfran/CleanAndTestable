@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
-using Thing.Core.Contracts;
 using Thing.Core.Command;
+using Thing.Core.Contracts;
 using Thing.Core.Query;
 
 namespace Thing.Api.Controllers
@@ -45,7 +45,7 @@ namespace Thing.Api.Controllers
         {
             await _mediator.SendAsync(input);
 
-            return CreatedAtRoute("ThingDetail",new {id= input.Id},input);
+            return CreatedAtRoute("ThingDetail", new {id = input.Id}, input);
         }
 
         [Route("{id}")]
