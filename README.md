@@ -112,8 +112,21 @@ public class ThingApiSpecs : IDisposable
     }
 }
 ```
-
 Not so different ?
+
+#Technology stack
+* Project
+    * .NET Framework 4.5.2  
+    * OWIN & WebApi
+    * Entity Framework 6.x
+    * [Fluent Validation] (https://github.com/JeremySkinner/FluentValidation)
+    * [MediatR] (https://github.com/jbogard/MediatR)
+    * [Autofac] (http://autofac.org/)
+    * [Automapper] (http://automapper.org/)
+* Test
+    * [Autofixture] (https://github.com/AutoFixture/AutoFixture)
+    * [Fixie](https://fixie.github.io/)
+    * [Should Assertions](https://github.com/erichexter/Should)
 
 #Requirements
 SQL Server LocalDB 2012 [link to download](http://www.microsoft.com/en-us/download/details.aspx?id=29062)
