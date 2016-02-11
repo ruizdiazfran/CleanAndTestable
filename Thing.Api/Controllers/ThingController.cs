@@ -48,7 +48,7 @@ namespace Thing.Api.Controllers
             return CreatedAtRoute("ThingDetail",new {id= input.Id},input);
         }
 
-        [Route("{id}"), HttpDelete]
+        [Route("{id}")]
         public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
         {
             try
