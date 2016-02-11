@@ -19,19 +19,28 @@ public class ThingController : ApiController
     {
         _mediator = mediator;
     }
+    
+    // ... other methods omitted
 
-   [Route("")]
+    [Route("")]
     public async Task<IHttpActionResult> Post([FromBody] ThingCommand.Create input)
     {
         await _mediator.SendAsync(input);
 
-        return Ok();
+        return CreatedAtRoute("ThingDetail",new {id= input.Id},input);
     }
 
-    [Route("")]
+    [Route("{id}")]
     public async Task<IHttpActionResult> Delete([FromUri] ThingCommand.Delete input)
     {
-        await _mediator.SendAsync(input);
+        try
+        {
+            await _mediator.SendAsync(input);
+        }
+        catch (EntityNotFound)
+        {
+            return NotFound();
+        }
 
         return Ok();
     }
