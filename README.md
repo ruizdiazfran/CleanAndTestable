@@ -61,9 +61,9 @@ public class ThingSpecs : SpecsForDb
 
     public void Should_create(ThingCommand.Create request)
     {
-        //  Act
-
         //  Arrange
+
+        //  Act
         Persist(() => _mediator.SendAsync(request).Wait());
 
         //  Assert
@@ -72,10 +72,10 @@ public class ThingSpecs : SpecsForDb
 
     public void Should_delete(ThingCommand.Delete request)
     {
-        //  Act
+        //  Arrange
         request.Id = "my-thirdy";
 
-        //  Arrange
+        //  Act
         Persist(()=>_mediator.SendAsync(request).Wait());
 
         //  Assert
@@ -98,9 +98,9 @@ public class ThingApiSpecs : IDisposable
 
     public void Should_create(ThingCommand.Create request)
     {
-        //  Act
-
         //  Arrange
+
+        //  Act
         var response = _httpClient.PostAsJsonAsync($"/api/thing",request).Result;
 
         //  Assert
@@ -110,10 +110,10 @@ public class ThingApiSpecs : IDisposable
 
     public void Should_delete(ThingCommand.Delete request)
     {
-        //  Act
+        //  Arrange
         request.Id = "my-thirdy";
 
-        //  Arrange
+        //  Act
         var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
 
         //  Assert
