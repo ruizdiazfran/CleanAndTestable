@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Fixie;
 
-namespace Thing.Tests.Integration
+namespace Thing.Tests.Integration.Db
 {
     internal class InitializeTestClass : ClassBehavior
     {

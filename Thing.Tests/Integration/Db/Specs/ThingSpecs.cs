@@ -8,7 +8,7 @@ using Thing.Core.Command;
 using Thing.Core.Contracts;
 using Thing.Core.Query;
 
-namespace Thing.Tests.Integration.Db
+namespace Thing.Tests.Integration.Db.Specs
 {
     public class ThingSpecs : SpecsForDb
     {
@@ -83,9 +83,9 @@ namespace Thing.Tests.Integration.Db
 
         public void Should_create(ThingCommand.Create request)
         {
-            //  Act
-
             //  Arrange
+
+            //  Act
             Persist(() => _mediator.SendAsync(request).Wait());
 
             //  Assert
@@ -94,10 +94,10 @@ namespace Thing.Tests.Integration.Db
 
         public void Should_not_create_when_name_is_secret(ThingCommand.Create request)
         {
-            //  Act
+            //  Arrange
             request.Name = "secret";
 
-            //  Arrange
+            //  Act
             Persist(() => _mediator.SendAsync(request).Wait());
 
             //  Assert
@@ -106,10 +106,10 @@ namespace Thing.Tests.Integration.Db
 
         public void Should_delete(ThingCommand.Delete request)
         {
-            //  Act
+            //  Arrange
             request.Id = "my-thirdy";
 
-            //  Arrange
+            //  Act
             Persist(() => _mediator.SendAsync(request).Wait());
 
             //  Assert
@@ -118,11 +118,13 @@ namespace Thing.Tests.Integration.Db
 
         public void Should_not_delete_when_name_is_secret(ThingCommand.Delete request)
         {
-            //  Act
+            //  Arrange
             request.Id = "my-fourthy";
 
+            //  Act
             Persist(() => _mediator.SendAsync(request).Wait());
 
+            //  Assert
             Do(db => db.Things.AnyAsync(_ => _.Id == request.Id).Result.ShouldBeTrue());
         }
     }

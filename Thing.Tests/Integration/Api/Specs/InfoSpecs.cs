@@ -4,7 +4,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Should;
 
-namespace Thing.Tests.Integration.Api
+namespace Thing.Tests.Integration.Api.Specs
 {
     public class InfoSpecs : IDisposable
     {

@@ -5,7 +5,7 @@ using Should;
 using Thing.Core.Command;
 using Thing.Core.Query;
 
-namespace Thing.Tests.Integration.Api
+namespace Thing.Tests.Integration.Api.Specs
 {
     public class ThingSpecs : IDisposable
     {
@@ -46,9 +46,9 @@ namespace Thing.Tests.Integration.Api
 
         public void Should_create(ThingCommand.Create request)
         {
-            //  Act
+            //  Arrange            
 
-            //  Arrange
+            //  Act
             var response = _httpClient.PostAsJsonAsync($"/api/thing", request).Result;
 
             //  Assert
@@ -58,10 +58,10 @@ namespace Thing.Tests.Integration.Api
 
         public void Should_delete(ThingCommand.Delete request)
         {
-            //  Act
+            //  Arrange
             request.Id = "my-thirdy";
 
-            //  Arrange
+            //  Act
             var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
 
             //  Assert
@@ -70,9 +70,9 @@ namespace Thing.Tests.Integration.Api
 
         public void Should_not_delete_if_id_not_exists(ThingCommand.Delete request)
         {
-            //  Act
-
             //  Arrange
+
+            //  Act
             var response = _httpClient.DeleteAsync($"/api/thing/{request.Id}").Result;
 
             //  Assert
