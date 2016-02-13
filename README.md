@@ -123,6 +123,53 @@ public class ThingApiSpecs : IDisposable
 ```
 Not so different ?
 
+# Testing in memory
+
+Thanks to powerful Microsoft.Owin.Testing library, it's possible test in easy way the http pipeline.
+[See some detail here](https://github.com/lucamilan/CleanAndTestable/blob/master/Thing.Tests/Integration/Api/HttpExtensions.cs)
+
+```c#
+public class HttpPipelineSpecs
+{
+    public void Should_get_same_service_from_owin_context_and_request()
+    {
+        //  Arrange
+        Action<HttpRequestMessage> assert = _ => 
+            _.GetOwinContext().Get<ILifetimeScope>("autofac:OwinLifetimeScope").Resolve<IUnitOfWork>()
+            .ShouldBeSameAs(_.GetDependencyScope().GetService(typeof(IUnitOfWork)));
+
+        var httpClient = new HttpConfiguration().ToHttpClient(new InspectHttpRequestMessageHandler(assert));
+
+        //  Act
+        var response = httpClient.GetAsync("/foo").Result;
+
+        //  Assert
+        response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+
+        httpClient.Dispose();
+    }
+}
+
+public class InspectHttpRequestMessageHandler : DelegatingHandler
+{
+    readonly Action<HttpRequestMessage> _assert;
+
+    public InspectHttpRequestMessageHandler(Action<HttpRequestMessage> assert)
+    {
+        _assert = assert;
+    }
+
+    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
+    {
+        _assert(request);
+
+        return Task.FromResult( request.CreateResponse(HttpStatusCode.OK) );
+    }
+}
+```
+
+
 #Technology stack
 * Project
     * .NET Framework 4.5.2  
