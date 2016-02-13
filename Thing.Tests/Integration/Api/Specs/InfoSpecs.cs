@@ -28,11 +28,7 @@ namespace Thing.Tests.Integration.Api.Specs
             var response = _httpClient.GetAsync("/api/info").Result;
 
             //  Assert
-            response.StatusCode.ShouldEqual(HttpStatusCode.OK);
-
-            var result = JObject.Parse(response.Content.ReadAsStringAsync().Result);
-
-            result["name"].ToString().ShouldEqual("Test");
+            response.StatusCode.ShouldEqual(HttpStatusCode.Unauthorized);
         }
     }
 }

@@ -17,11 +17,11 @@ namespace Thing.Api
         {
             Init();
 
-            var configuration = GetConfiguration();
+            var configuration = GetConfiguration(app);
 
             WebApiRegister.Register(configuration);
 
-            var container = GetContainer();
+            var container = GetContainer(app);
 
             configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
@@ -35,12 +35,12 @@ namespace Thing.Api
             Initer.Initialize();
         }
 
-        protected virtual HttpConfiguration GetConfiguration()
+        protected virtual HttpConfiguration GetConfiguration(IAppBuilder app)
         {
             return new HttpConfiguration();
         }
 
-        protected virtual IContainer GetContainer()
+        protected virtual IContainer GetContainer(IAppBuilder app)
         {
             return CompositionRoot.Container;
         }

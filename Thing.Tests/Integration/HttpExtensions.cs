@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Microsoft.Owin.Testing;
 
 namespace Thing.Tests.Integration
 {

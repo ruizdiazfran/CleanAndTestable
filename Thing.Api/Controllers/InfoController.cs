@@ -7,7 +7,7 @@ namespace Thing.Api.Controllers
     [RoutePrefix("api/info")]
     public class InfoController : ApiController
     {
-        [Route("")]
+        [Route(""), Authorize]
         public IHttpActionResult Get()
         {
             var user = Request.GetOwinContext().Authentication.User;

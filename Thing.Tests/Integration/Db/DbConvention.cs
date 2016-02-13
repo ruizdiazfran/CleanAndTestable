@@ -1,4 +1,6 @@
-﻿namespace Thing.Tests.Integration.Db
+﻿using System;
+
+namespace Thing.Tests.Integration.Db
 {
     public class DbConvention : FixieConventionBase
     {
@@ -9,6 +11,11 @@
 
             ClassExecution
                 .Wrap<InitializeTestClass>();
+        }
+
+        protected override object CustomCtorFactory(Type t)
+        {
+            return ContainerLocal.Resolve(t);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thing.Core.Domain
 {
-    [Table("ThingCommand")]
+    [Table("Thing")]
     public class Thing : IAggregateRoot
     {
         protected Thing()

@@ -45,9 +45,6 @@ namespace Thing.Tests.Integration
             return new SpecimenContext(_fixture).Resolve(t);
         }
 
-        protected virtual object CustomCtorFactory(Type t)
-        {
-            return ContainerLocal.Resolve(t);
-        }
+        protected abstract object CustomCtorFactory(Type t);
     }
 }

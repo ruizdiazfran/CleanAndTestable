@@ -5,7 +5,7 @@ using System.Threading;
 using Autofac;
 using Thing.Api.Infrastructure;
 
-namespace Thing.Tests.Integration
+namespace Thing.Tests.Integration.Db
 {
     public static class ContainerLocal
     {
@@ -15,15 +15,18 @@ namespace Thing.Tests.Integration
         private static ILifetimeScope ValueFactory()
         {
             Debug.WriteLine($"Create nested container");
-
-            var builder = new CompositionRoot()
-                .GetRegistrations()
-                .RegisterTests();
-
-            //  inject local DbContext
+            
+            //  reseed DB
             DbUtil.SeedDbContext();
+
+            //  register components
+            var builder = new CompositionRoot()
+                            .GetRegistrations()
+                            .RegisterTests();
+            
             builder.Register(_ => Db.Value);
 
+            //  create nested container
             return builder.Build().BeginLifetimeScope();
         }
 
@@ -41,18 +44,16 @@ namespace Thing.Tests.Integration
         {
             _instance = new ThreadLocal<ILifetimeScope>(ValueFactory);
 
-            return new DisposableAction(End);
-        }
+            return new DisposableAction(() =>
+            {
+                Debug.WriteLine($"Dispose nested container");
 
-        private static void End()
-        {
-            Debug.WriteLine($"Dispose nested container");
+                _instance?.Value.Dispose();
 
-            _instance?.Value.Dispose();
+                _instance?.Dispose();
 
-            _instance?.Dispose();
-
-            _instance = null;
+                _instance = null;
+            });
         }
     }
 
@@ -67,7 +68,7 @@ namespace Thing.Tests.Integration
 
         public void Dispose()
         {
-            // Interlocked allows the continuation to be executed only once
+            //  Interlocked allows the continuation to be executed only once
             var continuation = Interlocked.Exchange(ref _disposeAction, null);
 
             continuation?.Invoke();
