@@ -1,21 +1,16 @@
-using Autofac;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using Thing.Core.Contracts;
-using Should;
 using System;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Thing.Tests.Integration.Api
 {
-    public class CheckDependecyHandler : DelegatingHandler
+    public class InspectHttpRequestMessageHandler : DelegatingHandler
     {
         readonly Action<HttpRequestMessage> _assert;
 
-        public CheckDependecyHandler(Action<HttpRequestMessage> assert)
+        public InspectHttpRequestMessageHandler(Action<HttpRequestMessage> assert)
         {
             _assert = assert;
         }
