@@ -42,7 +42,7 @@ namespace Thing.Tests.Integration.Db.Specs
             result.Id.ShouldEqual(request.Id);
         }
 
-        public void Should_throw_ex_when_is_not_exists(ThingQuery.GetById request)
+        public void Should_throw_ex_when_id_not_exists(ThingQuery.GetById request)
         {
             try
             {

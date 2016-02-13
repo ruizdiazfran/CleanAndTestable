@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Net.Http;
+using System.Web.Http;
 using Autofac;
-using Microsoft.Owin.Builder;
 
 namespace Thing.Tests.Integration.Api
 {
@@ -20,22 +19,9 @@ namespace Thing.Tests.Integration.Api
             var builder = new ContainerBuilder();
             //  register tests
             builder.RegisterTests();
-            builder.Register(BuildHandler);
-            builder.Register(BuildHttpClient);
+            builder.Register(c => new HttpConfiguration());
+            builder.Register(c => new HttpConfiguration().ToHttpClient());
             return builder.Build();
-        }
-
-        private static HttpClient BuildHttpClient(IComponentContext arg)
-        {
-            return arg.Resolve<HttpMessageHandler>().ToHttpClient();
-        }
-
-        private static HttpMessageHandler BuildHandler(IComponentContext arg)
-        {
-            var app = new AppBuilder();
-            new TestStartup().Configuration(app);
-            var handler = new OwinHttpMessageHandler(app.Build());
-            return handler;
         }
 
         protected override object CustomCtorFactory(Type t)

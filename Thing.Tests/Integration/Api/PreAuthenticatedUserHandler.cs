@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Thing.Tests.Integration.Api
 {
-    public class PreAuthenticatedUser : DelegatingHandler
+    public class PreAuthenticatedUserHandler : DelegatingHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)

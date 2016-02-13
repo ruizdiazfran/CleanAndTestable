@@ -113,7 +113,7 @@
   <ItemGroup>
     <Compile Include="Constant.cs" />
     <Compile Include="Integration\Api\ApiConvention.cs" />
-    <Compile Include="Integration\Api\PreAuthenticatedUser.cs" />
+    <Compile Include="Integration\Api\PreAuthenticatedUserHandler.cs" />
     <Compile Include="Integration\Api\Specs\InfoSpecs.cs" />
     <Compile Include="Integration\Api\Specs\ThingSpecs.cs" />
     <Compile Include="Integration\Api\TestStartup.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Integration\Db\SpecsForDb.cs" />
     <Compile Include="Integration\Db\Specs\ThingSpecs.cs" />
     <Compile Include="Integration\FixieConventionBase.cs" />
-    <Compile Include="Integration\HttpExtensions.cs" />
+    <Compile Include="Integration\Api\HttpExtensions.cs" />
     <Compile Include="Integration\Db\DbConvention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\Db\ContainerLocal.cs" />

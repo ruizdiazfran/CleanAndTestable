@@ -15,15 +15,15 @@ namespace Thing.Tests.Integration.Db
         private static ILifetimeScope ValueFactory()
         {
             Debug.WriteLine($"Create nested container");
-            
+
             //  reseed DB
             DbUtil.SeedDbContext();
 
             //  register components
             var builder = new CompositionRoot()
-                            .GetRegistrations()
-                            .RegisterTests();
-            
+                .GetRegistrations()
+                .RegisterTests();
+
             builder.Register(_ => Db.Value);
 
             //  create nested container
