@@ -11,7 +11,7 @@ namespace Thing.Tests.Integration.Api
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            request.GetRequestContext().Principal = new ClaimsPrincipal(new GenericIdentity("Test"));
+            request.GetRequestContext().Principal = new ClaimsPrincipal(new GenericIdentity("TestUser"));
             return base.SendAsync(request, cancellationToken);
         }
     }

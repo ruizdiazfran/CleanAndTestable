@@ -45,7 +45,7 @@ namespace Thing.Tests.Integration.Api.Specs
             //  Assert
             response.StatusCode.ShouldEqual(HttpStatusCode.OK);
             var result = JObject.Parse(response.Content.ReadAsStringAsync().Result);
-            result["name"].ToString().ShouldEqual("Test");
+            result["name"].ToString().ShouldEqual("TestUser");
         }
     }
 }

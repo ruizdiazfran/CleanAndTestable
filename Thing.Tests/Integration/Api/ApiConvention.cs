@@ -19,8 +19,8 @@ namespace Thing.Tests.Integration.Api
             var builder = new ContainerBuilder();
             //  register tests
             builder.RegisterTests();
-            builder.Register(c => new HttpConfiguration());
             builder.Register(c => new HttpConfiguration().ToHttpClient());
+            builder.Register(c => new HttpConfiguration());
             return builder.Build();
         }
 
