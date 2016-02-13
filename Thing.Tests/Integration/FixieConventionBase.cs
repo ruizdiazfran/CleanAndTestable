@@ -12,8 +12,6 @@ namespace Thing.Tests.Integration
 {
     public abstract class FixieConventionBase : Convention
     {
-        private readonly IFixture _fixture = new Fixture();
-
         protected FixieConventionBase()
         {
             AutoMapperBootstrapper.Initialize();
@@ -31,6 +29,13 @@ namespace Thing.Tests.Integration
                 .Add(GetParameters);
         }
 
+        internal static Lazy<Fixture> Fixture = new Lazy<Fixture>(()=> {
+            var fixture = new Fixture();
+            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            return fixture;
+        });
+
         private IEnumerable<object[]> GetParameters(MethodInfo method)
         {
             var parameterTypes = method.GetParameters().Select(x => x.ParameterType);
@@ -42,7 +47,7 @@ namespace Thing.Tests.Integration
 
         protected virtual object CustomParameterFactory(Type t)
         {
-            return new SpecimenContext(_fixture).Resolve(t);
+            return new SpecimenContext(Fixture.Value).Resolve(t);
         }
 
         protected abstract object CustomCtorFactory(Type t);
