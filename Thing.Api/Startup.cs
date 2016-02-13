@@ -26,7 +26,7 @@ namespace Thing.Api
             configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             app.UseAutofacWebApi(configuration);
-
+            app.UseAutofacMiddleware(container);
             app.UseWebApi(configuration);
         }
 

@@ -113,7 +113,9 @@
   <ItemGroup>
     <Compile Include="Constant.cs" />
     <Compile Include="Integration\Api\ApiConvention.cs" />
+    <Compile Include="Integration\Api\CheckDependecyHandler.cs" />
     <Compile Include="Integration\Api\PreAuthenticatedUserHandler.cs" />
+    <Compile Include="Integration\Api\Specs\ContainerSpecs.cs" />
     <Compile Include="Integration\Api\Specs\InfoSpecs.cs" />
     <Compile Include="Integration\Api\Specs\ThingSpecs.cs" />
     <Compile Include="Integration\Api\TestStartup.cs" />

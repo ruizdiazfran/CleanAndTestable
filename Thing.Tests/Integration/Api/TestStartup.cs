@@ -24,6 +24,7 @@ namespace Thing.Tests.Integration.Api
 
         protected override HttpConfiguration GetConfiguration(IAppBuilder app)
         {
+            _configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             return _configuration;
         }
 
