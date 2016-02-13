@@ -7,9 +7,8 @@ namespace Thing.Tests.Integration.Api
 {
     public static class HttpExtensions
     {
-        private static readonly Func<HttpConfiguration, HttpMessageHandler> HttpHandlerFactory = configuration =>
+        private static readonly Func<AppBuilder, HttpConfiguration, HttpMessageHandler> HttpHandlerFactory = (app, configuration) =>
         {
-            var app = new AppBuilder();
             new TestStartup(configuration).Configuration(app);
             return new OwinHttpMessageHandler(app.Build());
         };
@@ -24,15 +23,15 @@ namespace Thing.Tests.Integration.Api
 
         public static HttpClient ToHttpClient(this HttpConfiguration configuration, string uri = "http://localhost")
         {
-            return HttpHandlerFactory(configuration).ToHttpClient(uri);
+            return HttpHandlerFactory(new AppBuilder(), configuration).ToHttpClient(uri);
         }
 
         public static HttpClient ToHttpClient(this HttpConfiguration configuration, params DelegatingHandler[] handlers)
         {
-            return HttpHandlerFactory(configuration.AddMessageHandlers(handlers)).ToHttpClient();
+            return HttpHandlerFactory(new AppBuilder(), configuration.AddMessageHandlers(handlers)).ToHttpClient();
         }
 
-        public static HttpConfiguration AddMessageHandlers(this HttpConfiguration configuration,
+        private static HttpConfiguration AddMessageHandlers(this HttpConfiguration configuration,
             params DelegatingHandler[] handlers)
         {
             foreach (var delegatingHandler in handlers)
